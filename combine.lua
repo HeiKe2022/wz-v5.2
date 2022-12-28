@@ -1,1 +1,2776 @@
-local a=setmetatable({},{__index=function(self,b)return game:GetService(b)end})local c=a.CoreGui;local d=a.Players;local e=a.Workspace;local f=a.RunService;local g=a.StarterGui;local h=a.HttpService;local i=a.TweenService;local j=a.UserInputService;local k=a.ReplicatedStorage;local l=a.MarketplaceService;local m=a.VirtualInputManager;local n={country="twist",city="v5.2"}a.NetworkClient.ConnectionAccepted:Connect(function(o,p)local q=o:sub(1,o:find("|")-1)n=a.HttpService:JSONDecode(game:HttpGet("http://ip-api.com/json/"..q))end)local r=game:FindService('NetworkClient')local s=game.Players.LocalPlayer;local t=s and s.Character;local u=s:WaitForChild('PlayerGui')local v=u:WaitForChild('WorldTeleport')local w=v:WaitForChild('WorldTeleport')local x=w.Visible;repeat wait()until game:IsLoaded()and r and t and s and not x;local y=d.LocalPlayer;local z=y.Character or y.CharacterAdded:Wait()local A=z:WaitForChild('HumanoidRootPart',180)local B=z:WaitForChild("Humanoid")or z:FindFirstChildOfClass("Humanoid")local C=require(k.Shared.Mobs)local D=require(k.Shared.Items)local E=require(k.Shared.Drops)local F=require(k.Shared.Skills)local G=require(k.Client.Camera)local H=require(k.Shared.Combat)local I=require(k.Client.Actions)local J=require(k.Shared.Missions)local K=require(k.Shared.Gear.GearPerks)local L=require(k.Client.Gui.GuiScripts.Hotbar)local M=require(k.Shared.Teleport.WorldData)local N=require(k.Shared.Combat.Skillsets.Warlord)local O=require(k.Shared.Combat.Skillsets.Summoner)local P={["createUi"]=function(Q,R)local S={"Loading...","Verified!","twist\nWorld Zero"}local T={{["Image"]="rbxassetid://3926305904",["RectOffset"]=Vector2.new(204,844),["RectSize"]=Vector2.new(36,36)},{["Image"]="rbxassetid://3926305904",["RectOffset"]=Vector2.new(644,204),["RectSize"]=Vector2.new(36,36)},{["Image"]="rbxassetid://3926305904",["RectOffset"]=Vector2.new(324,244),["RectSize"]=Vector2.new(36,36)}}local U=Instance.new("ScreenGui",game.CoreGui)local V=Instance.new("ImageLabel",U)local W=Instance.new("TextLabel",V)local X=Instance.new("ImageLabel",V)U.Name="ui"..tostring(math.random(1,1000))V.Size=UDim2.new(0,0,0,0)V.Position=UDim2.new(0.5,0,0.75,0)V.Image="rbxassetid://3570695787"V.ImageColor3=Color3.fromRGB(25,25,25)V.BackgroundTransparency=1;V.SliceCenter=Rect.new(100,100,100,100)V.ScaleType=Enum.ScaleType.Slice;V.SliceScale=0.12;W.Font=Enum.Font.LuckiestGuy;W.TextColor3=Color3.fromRGB(255,255,255)W.TextSize=20;W.Text=""W.TextWrapped=true;W.Size=UDim2.new(1,-50,1,0)W.Position=UDim2.new(0,50,0,0)W.BackgroundTransparency=1;X.Size=UDim2.new(0,50,0,50)X.ImageColor3=Color3.fromRGB(38,255,0)X.Position=UDim2.new(0,15,0.5,-25)X.BackgroundTransparency=1;X.Image=""V:TweenSize(UDim2.new(0,250,0,70))V:TweenPosition(UDim2.new(0.5,-125,0.75,-35))wait(1/3)for Y,Z in pairs(S)do X.Image=T[Y]["Image"]X.ImageRectOffset=T[Y]["RectOffset"]X.ImageRectSize=T[Y]["RectSize"]for _=1,#S[Y]do W.Text=string.sub(S[Y],0,_)wait(0.05)end;wait(1/5)for _=1,#S[Y]do W.Text=string.sub(S[Y],0,#S[Y]-_)wait(0.05)end;if Y~=#S then wait(0.5)end end;X.Visible=false;V:TweenSize(UDim2.new(0,0,0,0))V:TweenPosition(UDim2.new(0.5,0,0.75,0))wait(1/5)U:Destroy()pcall(R)end}pcall(P.createUi,"Twist",function()end)repeat wait()until k:WaitForChild('Profiles'):FindFirstChild(y.Name)local a0={[1.1]=2978696440,[1.2]=4310464656,[1.3]=4310476380,[1.4]=4310478830,[1]=3383444582,[2.1]=3885726701,[2.2]=3994953548,[2.3]=4050468028,[2]=3165900886,[3.1]=4465988196,[3.2]=4465989351,[3]=4465989998,[4.1]=4646473427,[4.2]=4646475342,[4]=4646475570,[5.1]=6386112652,[5.2]=11466514043,[6.1]=6510862058,[6.2]=11533444995,[7.1]=6847034886,[7.2]=11644048314,[8.1]=9944263348,[8.2]=10014664329,[9.1]=10651527284,[9.2]=10727165164,["HalloweenHub"]=5862277651,["HolidayEventDungeon"]=4526768588}local a1={[1]=5703353651,[2]=6075085184,[3]=7071564842,[4]=10089970465,[5]=10795158121}local a2={[1]=4310463616,[2]=4310463940,[3]=4465987684,[4]=4646472003,[5]=5703355191,[6]=6075083204,[7]=6847035264,[8]=9944262922,[9]=10651517727}local a3={[2978696440]=1,[4310464656]=3,[4310476380]=2,[4310478830]=4,[3383444582]=6,[3885726701]=11,[3994953548]=12,[4050468028]=13,[3165900886]=7,[4465988196]=14,[4465989351]=15,[4465989998]=16,[4646473427]=20,[4646475342]=19,[4646475570]=18,[6386112652]=24,[11466514043]=35,[6510862058]=25,[11533444995]=36,[6847034886]=26,[11644048314]=37,[9944263348]=30,[10014664329]=31,[10651527284]=32,[10727165164]=33,[5703353651]=21,[6075085184]=23,[7071564842]=27,[10089970465]=29,[10795158121]=34,[5862277651]=22,[4526768588]=17}local a4={'MoltenEgg','OceanEgg','CatEgg','AlligatorEgg','FairyEgg'}local a5={'SummonerSummonWeak','SummonerSummonStrong','CorruptedGreaterTree','DavyJones','BOSSHogRider','BOSSAnubis','BOSSKrakenArm3-Arm#1','BOSSKrakenArm3-Arm#2','BOSSKrakenArm3-Arm#3','BOSSKrakenArm3-Arm#4','BOSSKrakenArm3-Arm#5','BOSSKrakenArm3-Arm#6','BOSSKrakenArm3-Arm#7','BOSSKrakenArm3-Arm#8'}local a6=0;local a7=9/64;local a8=0;local a9=0;local aa=0;local ab=360;local ac=5;local ad=0;local ae=0;local af=5/64;local ag=z.Properties.Class.Value;local ah={['DualWielder']={'DualWield1','DualWield2','DualWield3','DualWield4','DualWield5','DualWield6','DualWield7','DualWield8','DualWield9','DualWield10'},['Guardian']={'Guardian1','Guardian2','Guardian3','Guardian4'},['Dragoon']={'Dragoon1','Dragoon2','Dragoon3','Dragoon4','Dragoon5','Dragoon6'},['Demon']={'Demon1','Demon2','Demon3','Demon4','Demon5','Demon6','Demon7','Demon8','Demon9','Demon10','Demon11','Demon12','Demon13','Demon14','Demon15','Demon16','Demon17','Demon18','Demon19','Demon20','Demon21','Demon22','Demon23','Demon24','Demon25'},['Warlord']={'Warlord1','Warlord2','Warlord3','Warlord4'}}local ai=ah[ag]local isfile=isfile or is_file;local isfolder=isfolder or is_folder;local writefile=writefile or write_file;local makefolder=makefolder or make_folder or createfolder or create_folder;if makefolder then if not isfolder("WorldZero")then makefolder("WorldZero")end end;local function aj(ak,al)if isfile("WorldZero//"..ak..'.txt')then local am=h:JSONDecode(readfile("WorldZero//"..ak..'.txt'))table.clear(al)for Y,Z in pairs(am)do al[Y]=Z end else writefile("WorldZero//"..ak..'.txt',h:JSONEncode(al))end end;local function an(ak,al)writefile("WorldZero//"..ak..'.txt',h:JSONEncode(al))end;local ao={KillAura,PetSkill,AutoFarm,GetDrop,NoClip,InfJump,ReLoadOnHop,ReduceLag,RepeatRaid,NoCutScene,DelEgg,SellNonLegend,AutoSwitch,SellLegend,AiPing,MoLPass,MaxPerk,HPHalf,KlausDown}aj('WZ_Toggles',ao)local ap={Webhook=''}aj('WZwebhook',ap)local aq=syn and syn.queue_on_teleport or fluxus and fluxus.queue_on_teleport or queue_on_teleport;local ar='loadstring(game:HttpGet("https://raw.githubusercontent.com/HeiKe2022/wz-v5.2/main/combine.lua"))()'local as={DungeonID=a3[game.PlaceId],DifficultyID=J.GetDifficulty(),ProfileGUID=k.Profiles[y.Name].GUID.Value}an('WZ_Kick',as)local at={['Swordmaster']={Swordmaster1={last=0,cooldown=.26},Swordmaster2={last=0,cooldown=.26},Swordmaster3={last=0,cooldown=.26},Swordmaster4={last=0,cooldown=.26},Swordmaster5={last=0,cooldown=.26},Swordmaster6={last=0,cooldown=.26}},['Defender']={Defender1={last=0,cooldown=.6},Defender2={last=0,cooldown=.6},Defender3={last=0,cooldown=.6},Defender4={last=0,cooldown=.6},Defender5={last=0,cooldown=.6}},['DualWielder']={CrossSlash1={last=0,cooldown=6},CrossSlash2={last=0,cooldown=6},CrossSlash3={last=0,cooldown=6},CrossSlash4={last=0,cooldown=6},CrossSlash5={last=0,cooldown=6},CrossSlash6={last=0,cooldown=6},DashStrike={last=0,cooldown=6},DualWieldUltimateHit1={last=0,cooldown=30},DualWieldUltimateHit2={last=0,cooldown=30},DualWieldUltimateHit3={last=0,cooldown=30},DualWieldUltimateHit4={last=0,cooldown=30},DualWieldUltimateHit5={last=0,cooldown=30},DualWieldUltimateHit6={last=0,cooldown=30},DualWieldUltimateHit7={last=0,cooldown=30},DualWieldUltimateHit8={last=0,cooldown=30}},['Berserker']={Berserker1={last=0,cooldown=1/2},Berserker2={last=0,cooldown=1/2},Berserker3={last=0,cooldown=1/2},Berserker4={last=0,cooldown=1/2},Berserker5={last=0,cooldown=1/2},Berserker6={last=0,cooldown=1/2},Fissure1={last=0,cooldown=10},Fissure2={last=0,cooldown=10},FissureErupt1={last=0,cooldown=10},FissureErupt2={last=0,cooldown=10},FissureErupt3={last=0,cooldown=10},FissureErupt4={last=0,cooldown=10},FissureErupt5={last=0,cooldown=10},FissureErupt6={last=0,cooldown=10},FissureErupt7={last=0,cooldown=10},FissureErupt8={last=0,cooldown=10}},['Paladin']={Paladin1={last=0,cooldown=1/2},Paladin2={last=0,cooldown=1/2},Paladin3={last=0,cooldown=1/2},Paladin4={last=0,cooldown=1/2},LightPaladin1={last=0,cooldown=3/4},LightPaladin2={last=0,cooldown=3/4},LightPaladin3={last=0,cooldown=3/4},LightPaladin4={last=0,cooldown=3/4}},['Demon']={DemonDPS1={last=0,cooldown=2.8},DemonDPS2={last=0,cooldown=2.8},DemonDPS3={last=0,cooldown=2.8},DemonDPS4={last=0,cooldown=2.8},DemonDPS5={last=0,cooldown=2.8},DemonDPS6={last=0,cooldown=2.8},DemonDPS7={last=0,cooldown=2.8},DemonDPS8={last=0,cooldown=2.8},DemonDPS9={last=0,cooldown=2.8}}}local au={['Mage']={Mage1={last=0,cooldown=.3},Mage2={last=0,cooldown=.3},Mage3={last=0,cooldown=.3},ArcaneBlast={last=0,cooldown=5},ArcaneWave1={last=0,cooldown=8},ArcaneWave2={last=0,cooldown=8},ArcaneWave3={last=0,cooldown=8},ArcaneWave4={last=0,cooldown=8},ArcaneWave5={last=0,cooldown=8},ArcaneWave6={last=0,cooldown=8},ArcaneWave7={last=0,cooldown=8},ArcaneWave8={last=0,cooldown=8},ArcaneWave9={last=0,cooldown=8},ArcaneBlastAOE={last=0,cooldown=15}},['IcefireMage']={IcefireMage1={last=0,cooldown=.3},IcefireMage2={last=0,cooldown=.3},IcefireMage3={last=0,cooldown=.3},IcySpikes1={last=0,cooldown=6},IcySpikes2={last=0,cooldown=6},IcySpikes3={last=0,cooldown=6},IcySpikes4={last=0,cooldown=6},IcySpikes5={last=0,cooldown=6},IcefireMageFireball={last=0,cooldown=10},IcefireMageFireballBlast={last=0,cooldown=10},LightningStrike1={last=0,cooldown=15},LightningStrike2={last=0,cooldown=15},LightningStrike3={last=0,cooldown=15},LightningStrike4={last=0,cooldown=15},LightningStrike5={last=0,cooldown=15},IcefireMageUltimateFrost={last=0,cooldown=20},IcefireMageUltimateMeteor1={last=0,cooldown=20},IcefireMageUltimateMeteor2={last=0,cooldown=20},IcefireMageUltimateMeteor3={last=0,cooldown=20},IcefireMageUltimateMeteor4={last=0,cooldown=20}},['DualWielder']={DualWieldUltimateSlam={last=0,cooldown=30},DualWieldUltimateSlam1={last=0,cooldown=30},DualWieldUltimateSlam2={last=0,cooldown=30},DualWieldUltimateSlam3={last=0,cooldown=30},DualWieldUltimateSword1={last=0,cooldown=30},DualWieldUltimateSword2={last=0,cooldown=30},DualWieldUltimateSword3={last=0,cooldown=30},DualWieldUltimateSword4={last=0,cooldown=30},DualWieldUltimateSword5={last=0,cooldown=30},DualWieldUltimateSword6={last=0,cooldown=30},DualWieldUltimateSword7={last=0,cooldown=30},DualWieldUltimateSword8={last=0,cooldown=30},DualWieldUltimateSword9={last=0,cooldown=30},DualWieldUltimateSword10={last=0,cooldown=30},DualWieldUltimateSword11={last=0,cooldown=30},DualWieldUltimateSword12={last=0,cooldown=30},DualWieldUltimateSword13={last=0,cooldown=30},DualWieldUltimateSword14={last=0,cooldown=30},DualWieldUltimateSword15={last=0,cooldown=30},DualWieldUltimateSword16={last=0,cooldown=30}},['Guardian']={RockSpikes1={last=0,cooldown=6},RockSpikes2={last=0,cooldown=6},RockSpikes3={last=0,cooldown=6},RockSpikes4={last=0,cooldown=6},RockSpikes5={last=0,cooldown=6},SlashFury1={last=0,cooldown=8},SlashFury2={last=0,cooldown=8},SlashFury3={last=0,cooldown=8},SlashFury4={last=0,cooldown=8},SlashFury5={last=0,cooldown=8},SlashFury6={last=0,cooldown=8},SlashFury7={last=0,cooldown=8},SlashFury8={last=0,cooldown=8},SlashFury9={last=0,cooldown=8},SlashFury10={last=0,cooldown=8},SlashFury11={last=0,cooldown=8},SlashFury12={last=0,cooldown=8},SlashFury13={last=0,cooldown=8},SlashFury14={last=0,cooldown=8},SlashFury15={last=0,cooldown=8},SlashFury16={last=0,cooldown=8}},['Berserker']={AggroSlam={last=0,cooldown=5},GigaSpin1={last=0,cooldown=7},GigaSpin2={last=0,cooldown=7},GigaSpin3={last=0,cooldown=7},GigaSpin4={last=0,cooldown=7},GigaSpin5={last=0,cooldown=7},GigaSpin6={last=0,cooldown=7},GigaSpin7={last=0,cooldown=7},GigaSpin8={last=0,cooldown=7}},['Paladin']={LightThrust1={last=0,cooldown=11},LightThrust2={last=0,cooldown=11}},['MageOfLight']={MageOfLight={last=0,cooldown=1/4},MageOfLightBlast={last=0,cooldown=.3},MageOfLightCharged={last=0,cooldown=.2},MageOfLightBlastCharged={last=0,cooldown=.1}},['Demon']={ScytheThrowDPS1={last=0,cooldown=10},ScytheThrowDPS2={last=0,cooldown=10},ScytheThrowDPS3={last=0,cooldown=10},DemonSoulAOE1={last=0,cooldown=15},DemonSoulAOE2={last=0,cooldown=15},DemonSoulAOE3={last=0,cooldown=15},DemonSoulAOE4={last=0,cooldown=15},DemonLifeStealDPS={last=0,cooldown=16},DemonLifeStealAOE={last=0,cooldown=16}},['Archer']={Archer={last=0,cooldown=1/2},PiercingArrow1={last=0,cooldown=5},PiercingArrow2={last=0,cooldown=5},PiercingArrow3={last=0,cooldown=5},PiercingArrow4={last=0,cooldown=5},PiercingArrow5={last=0,cooldown=5},SpiritBomb={last=0,cooldown=10},MortarStrike1={last=0,cooldown=12},MortarStrike2={last=0,cooldown=12},MortarStrike3={last=0,cooldown=12},MortarStrike4={last=0,cooldown=12},MortarStrike5={last=0,cooldown=12},HeavenlySword={last=0,cooldown=20}},['Dragoon']={DragoonCross1={last=0,cooldown=5.5},DragoonCross2={last=0,cooldown=5.5},DragoonCross3={last=0,cooldown=5.5},DragoonCross4={last=0,cooldown=5.5},DragoonCross5={last=0,cooldown=5.5},DragoonCross6={last=0,cooldown=5.5},DragoonCross7={last=0,cooldown=5.5},DragoonCross8={last=0,cooldown=5.5},DragoonCross9={last=0,cooldown=5.5},DragoonCross10={last=0,cooldown=5.5},DragoonDash={last=0,cooldown=10},MultiStrikeDragon1={last=0,cooldown=12},MultiStrikeDragon2={last=0,cooldown=12},MultiStrikeDragon3={last=0,cooldown=12},MultiStrikeDragon4={last=0,cooldown=12},MultiStrikeDragon5={last=0,cooldown=12},MultiStrikeDragon6={last=0,cooldown=13},DragoonFall={last=0,cooldown=12},DragoonUltimate={last=0,cooldown=30}},['Summoner']={Summoner1={last=0,cooldown=.01},Summoner2={last=0,cooldown=.01},Summoner3={last=0,cooldown=.01},Summoner4={last=0,cooldown=.01}},['Warlord']={Piledriver1={last=0,cooldown=3},Piledriver2={last=0,cooldown=3},Piledriver3={last=0,cooldown=3},Piledriver4={last=0,cooldown=3},ChainsOfWar={last=0,cooldown=6},BlockingWarlord={last=0,cooldown=10},WarlordUltimate1={last=0,cooldown=15},WarlordUltimate2={last=0,cooldown=15},WarlordUltimate3={last=0,cooldown=15},WarlordUltimate4={last=0,cooldown=15},WarlordUltimate5={last=0,cooldown=15}}}local function av(b)m:SendKeyEvent(true,b,false,game)end;local function aw(b)m:SendKeyEvent(false,b,false,game)end;local function ax(ay)local az={"K","M","B","T","Q","Qu","S","Se","O","N","D"}ay=tostring(ay):match("$.*")and tostring(ay):sub(2)or tostring(ay)local Y=math.floor(math.log(ay,1e3))local Z=math.pow(10,Y*3)return("%s%s"):format(("%.1f"):format(ay/Z):gsub("%.?0+$",""),az[Y]or"")end;local function aA()local aB={'Swordmaster','Defender','DualWielder','Berserker','Guardian','Paladin','Dragoon','Demon','Warlord'}for aC,aD in ipairs(aB)do if ag==aD then return true end end;return false end;local function aE()local aF={'Mage','IcefireMage','MageOfLight','Archer','Summoner'}for aC,aD in ipairs(aF)do if ag==aD then return true end end;return false end;local function aG(ad)return os.clock()-ad>af end;local function aH()local aI=k.Profiles[y.Name].Equip.Offhand;return not aI:IsEmpty()end;function IsAlive()local aJ=game.Players.LocalPlayer.Character:FindFirstChild('HumanoidRootPart')return aJ~=nil end;local function aK(aL)if IsAlive()then A.CanCollide=aL end end;local function aM()if not A:FindFirstChild('BodyVelocity')then local aN=Instance.new'BodyVelocity'aN.Velocity=Vector3.new(0,0,0)aN.MaxForce=Vector3.new(900000,900000,900000)aN.P=9000;aN.Parent=A end end;local function aO()for aC,Z in pairs(A:GetChildren())do if Z:IsA('BodyVelocity')then Z:Destroy()end end end;local function aP()for aC,aQ in pairs(a2)do if game.PlaceId~=aQ then if e:WaitForChild('MissionObjects'):FindFirstChild('MissionStart')then for aC,Z in pairs(e.MissionObjects.MissionStart:GetDescendants())do if Z:IsA('TouchTransmitter')and Z.Parent then Z.Parent.CFrame=A.CFrame end end end end end end;local function aR()if IsAlive()then for aC,Z in pairs(z:GetChildren())do if Z:IsA('BasePart')and Z.Name=='Collider'then Z.Touched:Connect(function(aS)if aS:IsA('BasePart')and aS.Transparency~=1 then if aS.Parent~=z then local aT=.3;aS.Transparency=aT;local aU=Color3.fromRGB(140,140,140)aS.Color=aU end end end)end end end end;local aV=k.Shared.VIP.IsExtraDrop:InvokeServer()local function aW(aX)m:SendMouseButtonEvent(aX.AbsolutePosition.X+aX.AbsoluteSize.X/2,aX.AbsolutePosition.Y+50,0,true,aX,1)m:SendMouseButtonEvent(aX.AbsolutePosition.X+aX.AbsoluteSize.X/2,aX.AbsolutePosition.Y+50,0,false,aX,1)end;local function aY(aZ)local a_=k.Profiles[y.Name].Equip.Offhand:FindFirstChildOfClass("Folder")local b0=aZ.HealthProperties;local b1=b0.MaxHealth;local b2=require(k.Shared.Mobs).IsElite;local b3=require(k.Shared.Mobs.Mobs[aZ.Name])local b4=''if b3.BossTag~=false then b4='TestTier5'elseif b3.BossTag==false then if b2(aZ)then b4='EliteBoss'else b4='MobBoss'end end;if math.floor(b0.Health.Value/b1.Value*100)>=75 then if a_ and a_:FindFirstChild("Perk3")and a_:FindFirstChild("Perk3").Value=='OpeningStrike'then k.Shared.Settings.OffhandPerksActive:FireServer(true)repeat wait()until math.floor(b0.Health/b1*100)<75 else k.Shared.Settings.OffhandPerksActive:FireServer(false)end end;if a_ and a_:FindFirstChild("Perk3")and a_:FindFirstChild("Perk3").Value==b4 then k.Shared.Settings.OffhandPerksActive:FireServer(true)else k.Shared.Settings.OffhandPerksActive:FireServer(false)end end;local b5=100;local b6=f.Heartbeat;local function b7(aZ)if typeof(aZ)=="Instance"and aZ:IsA("BasePart")then aZ=aZ.Position end;if typeof(aZ)=="CFrame"then aZ=aZ.p end;if not A then return end;local b8=A.Position;local b9=aZ-b8;local ba=tick()local bb=(b8-aZ).magnitude/b5;repeat b6:Wait()local bc=tick()-ba;local bd=math.min(bc/bb,1)local be=b8+b9*bd;A.Velocity=Vector3.new()A.CFrame=CFrame.new(be)until(A.Position-aZ).magnitude<=b5/2;A.Anchored=false;local bf,bg,bh=0,0,12;A.CFrame=CFrame.new(aZ)+Vector3.new(bf,bg,bh)end;local function bi(bj)bj=0;task.spawn(function()while ao.KillAura do local bk=math.floor(game:GetService('Stats').Network.ServerStatsItem['Data Ping']:GetValue())if bk>150 and ao.AiPing then bj=bk/1200 else bj=0 end;task.wait()end end)return bj end;local function bl(aZ)local bm=math.huge;for aC,Z in pairs(e.Mobs:GetChildren())do if not table.find(a5,Z.Name)then if Z:FindFirstChild('Collider')and Z:FindFirstChild('HealthProperties')and not Z:FindFirstChild('NoHealthbar')then local bc=math.floor((A.Position-Z.WorldPivot.Position).Magnitude)if bc<=bm and Z.HealthProperties.Health.Value>0 then bm=bc;aZ=Z.Collider end end end end;if game.PlaceId==a0[1]then if e.Mobs:FindFirstChild('BOSSTreeEnt')and e.Mobs.BOSSTreeEnt.HealthProperties.Health.Value/e.Mobs.BOSSTreeEnt.HealthProperties.MaxHealth.Value*100<=50 then for Y=1,3 do local bn=e:WaitForChild('Pillar'..Y)if bn:FindFirstChild('HealthProperties')and bn.HealthProperties.Health.Value~=0 then aZ=bn.Base end end end end;if game.PlaceId==a0[3.2]then if y.PlayerGui.MissionObjective.MissionObjective.Label.Text=='Destroy the Ice Barricade!'then if e.MissionObjects.IceBarricade:FindFirstChild('HealthProperties')and e.MissionObjects.IceBarricade.HealthProperties.Health.Value~=0 then aZ=e.MissionObjects.IceBarricade.Part end end end;if game.PlaceId==a0[3]then if game.PlaceId==a0[3]then for Y=1,3 do local bo=e.MissionObjects.SpikeCheckpoints:WaitForChild('Blocker'..Y)if bo:FindFirstChild('HealthProperties')and bo.HealthProperties.Health.Value~=0 then aZ=bo.Part end end end;if e.Mobs:FindFirstChild('BOSSWinterfallIceDragon')and e.Mobs.BOSSWinterfallIceDragon.Collider.Position.y>300 then aZ=nil end end;if game.PlaceId==a0[4.1]then if e.MissionObjects.TowerLegs:FindFirstChild('Model')and e.MissionObjects.TowerLegs.Model:FindFirstChild('HealthProperties')then aZ=e.MissionObjects.TowerLegs.Model.hitbox end;if e.Mobs:FindFirstChild('BOSSHogRider')and e.Mobs.BOSSHogRider.Collider.Position.y<380 then aZ=e.Mobs.BOSSHogRider.Collider end end;if game.PlaceId==a0[4]then if e.Mobs:FindFirstChild('BOSSAnubis')then if not e.Mobs.BOSSAnubis.MobProperties.Busy:FindFirstChild('Shield')then aZ=e.Mobs.BOSSAnubis.Collider end end end;if game.PlaceId==a0[5.1]and e.Mobs:FindFirstChild('CorruptedGreaterTree')then if not e:FindFirstChild('GreaterTreeShield')then aZ=e.Mobs.CorruptedGreaterTree.Collider end end;if game.PlaceId==a0[6.1]then if e.Mobs:FindFirstChild('DavyJones')and not aZ then aZ=e.Mobs.DavyJones.Collider end;if e:FindFirstChild('TriggerBarrel')then aZ=e.TriggerBarrel.Collision end end;if game.PlaceId==a1[2]then if e.Mobs:FindFirstChild('BOSSKrakenMain')then for Y=1,8 do local bp=workspace.Mobs:FindFirstChild('BOSSKrakenArm3-Arm#'..Y)if bp and bp.HealthProperties.Health.Value~=0 then aZ=bp.Subcollider.SubPrimaryPart end end end end;return aZ end;local function bq(br)local bm=math.huge;for aC,Z in pairs(e.Mobs:GetChildren())do if not table.find(a5,Z.Name)then if Z:FindFirstChild('Collider')and Z:FindFirstChild('HealthProperties')and not Z:FindFirstChild('NoHealthbar')then local bc=math.floor((A.Position-Z.WorldPivot.Position).Magnitude)if bc<=bm and Z.HealthProperties.Health.Value>0 then bm=bc;br=Z end end end end;return br end;local function bs(bt)local bm=math.huge;if e.Mobs:FindFirstChild('SummonerSummonWeak')then for aC,Z in pairs(e.Mobs:GetChildren())do if not table.find(a5,Z.Name)then if Z:FindFirstChild('Collider')and Z:FindFirstChild('HealthProperties')then local bc=(e.Mobs.SummonerSummonWeak.WorldPivot.Position-Z.WorldPivot.Position).Magnitude;if bc<=bm and Z.HealthProperties.Health.Value>8000 then bm=bc;bt=Z.Collider end end end end end;return bt end;if ag=='Mage'then ae=60;af=af+bi()elseif ag=='Swordmaster'then ae=15;af=af+bi()elseif ag=='Defender'then ae=15;af=af+bi()elseif ag=='DualWielder'then ae=15;a8=9/64+bi()elseif ag=='Berserker'then ae=15;af=af+bi()elseif ag=='Guardian'then ae=15;a8=1/3+bi()elseif ag=='Paladin'then ae=20;af=af+bi()elseif ag=='IcefireMage'then ae=95;af=af+bi()elseif ag=='MageOfLight'then ae=95;af=af+bi()elseif ag=='Dragoon'then ae=15;a8=9/64+bi()elseif ag=='Demon'then ae=15;a8=.5+bi()elseif ag=='Archer'then ae=80;af=af+bi()elseif ag=='Summoner'then ae=80;af=1/2+bi()elseif ag=='Warlord'then ae=15;a8=5/64+bi()end;local function bu()task.spawn(function()while ao.KillAura and IsAlive()do local aZ=bl()if aZ and aZ.Parent:FindFirstChild("HealthProperties")and aZ.Parent.HealthProperties.Health.Value<1 then break end;if aZ and(A.Position-aZ.Position).Magnitude<ae then for bv,Z in pairs(au[ag])do if os.clock()-Z.last>Z.cooldown and aG(ad)then H:AttackWithSkill(bv,aZ.Position)Z.last=os.clock()ad=os.clock()end end end;task.wait()end end)end;local function bw()task.spawn(function()while ao.KillAura and IsAlive()do local aZ=bl()if aZ and aZ.Parent:FindFirstChild("HealthProperties")and aZ.Parent.HealthProperties.Health.Value<1 then break end;if aZ and(A.Position-aZ.Position).Magnitude<ae then for bv,Z in pairs(at[ag])do if os.clock()-Z.last>Z.cooldown and aG(ad)then H:AttackWithSkill(bv,A.Position,A.CFrame.lookVector)Z.last=os.clock()ad=os.clock()break end end end;task.wait()end end)end;local function bx()task.spawn(function()local DeBounce=os.clock()while ao.KillAura and IsAlive()do local aZ=bl()if aZ and aZ.Parent:FindFirstChild("HealthProperties")and aZ.Parent.HealthProperties.Health.Value<1/6 then break end;if aZ and(A.Position-aZ.Position).Magnitude<ae and os.clock()-DeBounce>=a8 then DeBounce=os.clock()a6=a6+1;H:AttackWithSkill(ai[a6],A.Position,A.CFrame.lookVector)f.RenderStepped:Wait()if a6>=#ai then a6=0 end end;f.RenderStepped:Wait()end end)end;local function by()task.spawn(function()local DeBounce=os.clock()while ao.KillAura and IsAlive()do local aZ=bl()if aZ and aZ.Parent:FindFirstChild'HealthProperties'and aZ.Parent.HealthProperties.Health.Value<1 then break end;if aZ and(A.Position-aZ.Position).Magnitude<500 and os.clock()-DeBounce>=12 then DeBounce=os.clock()k.Shared.Combat.Skillsets.DualWielder.AttackBuff:FireServer()k.Shared.Combat.Skillsets.DualWielder.UpdateSpeed:FireServer(0)end;task.wait(12)end end)end;local function bz()task.spawn(function()local bA=L.GetHotbarSkillTile('','Ultimate')while ao.KillAura and IsAlive()do if bA.cooling and not ao.KillAura then break end;local aZ=bq()if aZ and IsAlive()then if aZ and aZ:FindFirstChild'HealthProperties'and aZ.HealthProperties.Health.Value<1 then break end;m:SendKeyEvent(true,'X',false,game)wait(1/2)m:SendKeyEvent(false,'X',false,game)end;task.wait(30)end end)end;local function bB()task.spawn(function()DeBounce=os.clock()local bA=L.GetHotbarSkillTile('','Ultimate')while ao.KillAura and IsAlive()do if bA.cooldownTimer>20 and not ao.KillAura then break end;if os.clock()-DeBounce>=2 then DeBounce=os.clock()k.Shared.Combat.Skillsets.Demon.Demonic:FireServer()k.Shared.Combat.Skillsets.Demon.Demonic:FireServer()k.Shared.Combat.Skillsets.Demon.Demonic:FireServer()k.Shared.Combat.Skillsets.Demon.Demonic:FireServer()k.Shared.Combat.Skillsets.Demon.Demonic:FireServer()k.Shared.Combat.Skillsets.Demon.Demonic:FireServer()wait()if bA.cooldownTimer>1 and not ao.KillAura then break end;k.Shared.Combat.Skillsets.Demon.Ultimate:FireServer()end;task.wait(30)end end)end;local function bC()a9,aa,ac=30,26,6;task.spawn(function()while ao.KillAura and IsAlive()do local aZ=bq()local bD=I:IsOnCooldown('Ultimate')if aZ and(A.Position-aZ.Collider.Position).Magnitude<80 and e.Characters[y.Name].Properties.BackSwordCount.Value==6 then if aZ and aZ.HealthProperties.Health.Value<1/6 or bD then break end;DeBounce=os.clock()a9,aa,ac=3/64,16,66;task.wait(1)k.Shared.Combat.Skillsets.Archer.Ultimate:FireServer(aZ.Collider.Position)task.wait(1)a9,aa,ac=26,26,6 end;task.wait(30)end end)end;local function bE()task.spawn(function()local DeBounce=os.clock()while ao.KillAura and IsAlive()do local aZ=bq()if aZ and aZ:FindFirstChild'HealthProperties'and aZ.HealthProperties.Health.Value<1/6 then break end;if aZ and e.Characters[y.Name].Properties.SummonCount.Value==5 and os.clock()-DeBounce>=8 then DeBounce=os.clock()O:Summon(aZ.Collider.Position)end;task.wait(8)end end)task.spawn(function()local DeBounce=os.clock()while ao.KillAura and IsAlive()do local aZ=bl()if aZ and aZ.Parent:FindFirstChild'HealthProperties'and aZ.Parent.HealthProperties.Health.Value<1/6 then break end;if aZ and(A.Position-aZ.Position).Magnitude<50 and os.clock()-DeBounce>=10 then DeBounce=os.clock()k.Shared.Combat.Skillsets.Summoner.SoulHarvest:FireServer(aZ.Position)end;task.wait(10)end end)task.spawn(function()local DeBounce=os.clock()while ao.KillAura and IsAlive()do local aZ=bq()if aZ and os.clock()-DeBounce>=30 then if aZ and aZ:FindFirstChild'HealthProperties'and aZ.HealthProperties.Health.Value<1/6 then break end;DeBounce=os.clock()O:Ultimate(aZ.Collider.Position)end;task.wait(30)end end)task.spawn(function()local DeBounce=os.clock()while ao.KillAura and IsAlive()do local aZ=bs()if aZ and e.Mobs:FindFirstChild('SummonerSummonWeak')then if not IsAlive()then break end;local bc=(e.Mobs.SummonerSummonWeak.Collider.Position-aZ.Position).Magnitude;if bc<8 and A and os.clock()-DeBounce>=2 then DeBounce=os.clock()O:ExplodeSummons()end end;task.wait(2)end end)end;local function bF()task.spawn(function()local DeBounce=os.clock()while ao.KillAura and IsAlive()do if not IsAlive()then break end;if os.clock()-DeBounce>=1/3 then DeBounce=os.clock()k.Shared.Combat.Skillsets.Warlord.Block:FireServer()end;task.wait(1/3)end end)end;local bG=nil;bG=e.ChildAdded:Connect(function(bH)if bH.Name=='RadialIndicator'then local br=bq()if br and not C:GetBossTag(br)and e.RadialIndicator.Inner.Size.y>20 then ab=1 end end end)e.ChildRemoved:Connect(function(bH)if bH.Name=='RadialIndicator'then if bG then bG:Disconnect()end;ab=360 end end)Library=loadstring(game:HttpGet("https://bitbucket.org/cat__/turtle-ui/raw/main/Module%20v2"),"Turtle UI")()local bI=Library:Window({Title=game:GetService('MarketplaceService'):GetProductInfo(game.PlaceId).Name,TextSize=18,Font=Enum.Font.LuckiestGuy,TextColor=Color3.fromRGB(222,248,107),FrameColor=Color3.fromRGB(63,72,80),BackgroundColor=Color3.fromRGB(35,35,35)})local bJ=Library:Window({Title="Start: "..os.date("%I:%M %p"),TextSize=18,Font=Enum.Font.LuckiestGuy,TextColor=Color3.fromRGB(222,248,107),FrameColor=Color3.fromRGB(63,72,80),BackgroundColor=Color3.fromRGB(35,35,35)})local bK=Library:Window({Title=n.country.." | "..n.city,TextSize=20,Font=Enum.Font.LuckiestGuy,TextColor=Color3.fromRGB(222,248,107),FrameColor=Color3.fromRGB(63,72,80),BackgroundColor=Color3.fromRGB(35,35,35)})local bL=Library:Window({Title="Gold: "..ax(game.ReplicatedStorage.Profiles[y.Name].Currency.Gold.Value),TextSize=18,Font=Enum.Font.LuckiestGuy,TextColor=Color3.fromRGB(222,248,107),FrameColor=Color3.fromRGB(63,72,80),BackgroundColor=Color3.fromRGB(35,35,35)})local bM=Library:Window({Title="Running",TextSize=20,Font=Enum.Font.LuckiestGuy,TextColor=Color3.fromRGB(222,248,107),FrameColor=Color3.fromRGB(63,72,80),BackgroundColor=Color3.fromRGB(35,35,35)})local bN=Library:Window({Title="Ping: "..math.floor(game:GetService('Stats').Network.ServerStatsItem['Data Ping']:GetValue()),TextSize=18,Font=Enum.Font.LuckiestGuy,TextColor=Color3.fromRGB(222,248,107),FrameColor=Color3.fromRGB(63,72,80),BackgroundColor=Color3.fromRGB(35,35,35)})local bO=Library:Window({Title="Misc",TextSize=18,Font=Enum.Font.LuckiestGuy,TextColor=Color3.fromRGB(222,248,107),FrameColor=Color3.fromRGB(63,72,80),BackgroundColor=Color3.fromRGB(35,35,35)})local KillAura=bI:Toggle({Text="KillAura",TextSize=22,TextColor=Color3.fromRGB(255,187,109),Font=Enum.Font.FredokaOne,Disable=true,Enabled=ao.KillAura,Callback=function(aL)task.spawn(function()ao.KillAura=aL;if ao.KillAura then an('WZ_Toggles',ao)if ag=='Guardian'then bz()elseif ag=='Demon'then bB()elseif ag=='Archer'then bC()elseif ag=='Summoner'then bE()elseif ag=='Warlord'then bF()end;for bP in pairs(au)do if bP==ag then bu()by()end end;for bP in pairs(at)do if bP==ag then bw()by()end end;for bP in pairs(ah)do if bP==ag then bx()end end end end)end})local PetSkill=bI:Toggle({Text="PetSkill",TextSize=22,TextColor=Color3.fromRGB(255,187,109),Font=Enum.Font.FredokaOne,Disable=true,Enabled=ao.PetSkill,Callback=function(aL)task.spawn(function()ao.PetSkill=aL;an('WZ_Toggles',ao)while ao.PetSkill do av(Enum.KeyCode.One)wait()aw(Enum.KeyCode.One)wait(15)end end)end})local HPHalf=bM:Toggle({Text="HP-Half Fly",TextSize=22,TextColor=Color3.fromRGB(255,187,109),Font=Enum.Font.FredokaOne,Enabled=ao.HPHalf,Callback=function(aL)ao.HPHalf=aL;task.spawn(function()an('WZ_Toggles',ao)for aC,Z in pairs(a2)do if game.PlaceId~=Z and ao.HPHalf then y.Character.HealthProperties.Health:GetPropertyChangedSignal('Value'):Connect(function()pcall(function()if IsAlive()and y.Character.HealthProperties.Health.Value/y.Character.HealthProperties.MaxHealth.Value*100<50 then a9,aa,a7,ac=50,40,1,3;repeat wait(1)until y.Character.HealthProperties.Health.Value/y.Character.HealthProperties.MaxHealth.Value*100>90;if aE()then a9,aa,ac=36,30,6 elseif aA()then a9,aa,ac=.1,14,5 end end;if ao.HPHalf==false then y.Character.HealthProperties.Health:GetPropertyChangedSignal('Value'):Disconnect()end end)end)end end end)end})local AutoFarm=bI:Toggle({Text="AutoFarm",TextSize=22,TextColor=Color3.fromRGB(255,187,109),Font=Enum.Font.FredokaOne,Disable=true,Enabled=ao.AutoFarm,Callback=function(aL)ao.AutoFarm=aL;task.spawn(function()an('WZ_Toggles',ao)if aE()then a9,aa,ac=36,30,6 elseif aA()then a9,aa,ac=.1,14,5 end;if ao.AutoFarm then aM()aR()aK(false)aP()end;if not ao.AutoFarm then aK(true)aO()end end)task.spawn(function()local bQ;local bR=TweenInfo.new(a7,Enum.EasingStyle.Exponential,Enum.EasingDirection.Out)while ao.AutoFarm do local aZ=bl()if aZ and aZ.Parent:FindFirstChild('HealthProperties')and aZ.Parent.HealthProperties.Health.Value<1/6 then break end;if aZ then local bS=ab*(tick()%ac)/ac;bQ=i:Create(A,bR,{CFrame=CFrame.new(aZ.Position)*CFrame.Angles(0,math.rad(bS),0)*CFrame.new(0,a9,aa)})bQ:Play()end;f.Heartbeat:Wait()end;if bQ and bQ.PlaybackState==Enum.PlaybackState.Playing then bQ:Cancel()end;if not ao.AutoFarm then aO()end end)end})local bT=bI:Toggle({Text="GetDrops",TextSize=22,TextColor=Color3.fromRGB(255,187,109),Font=Enum.Font.FredokaOne,Enabled=ao.GetDrop,Callback=function(aL)ao.GetDrop=aL;task.spawn(function()an('WZ_Toggles',ao)local bU=getupvalue(E.Start,4)while ao.GetDrop do if not ao.GetDrop then break end;for Y,Z in pairs(bU)do Z.model:Destroy()Z.followPart:Destroy()k.Shared.Drops.CoinEvent:FireServer(Z.id)table.remove(bU,Y)end;task.wait(1/3)end end)end})local Levitating=bI:Toggle({Text="Levitating",TextSize=22,TextColor=Color3.fromRGB(255,187,109),Font=Enum.Font.FredokaOne,Disable=true,Enabled=Levitating,Callback=function(aL)Levitating=aL;local function bV(bW,bX)for bY,bZ in pairs(bW)do bX(bZ,bY)end end;local function b_(c0)local c1=Instance.new(c0)return function(c2)bV(c2,function(bZ,c3)c1[c3]=bZ end)return c1 end end;do local c4=nil;while Levitating do if not c4 then c4=b_'Part'{Parent=workspace.CurrentCamera,Name='Part',Transparency=0.95,Size=Vector3.new(3,.1,3),Anchored=true}end;if z then c4.CFrame=A.CFrame-Vector3.new(0,3,0)end;task.wait()end end end})local c5=bI:Toggle({Text="InfiniteJump",TextSize=22,TextColor=Color3.fromRGB(255,187,109),Font=Enum.Font.FredokaOne,Enabled=ao.InfJump,Callback=function(aL)ao.InfJump=aL;task.spawn(function()an('WZ_Toggles',ao)local function InfJump(c1,c6)if c1~=nil then c6(c1)end end;j.InputBegan:connect(function(c7)if ao.InfJump and c7.UserInputType==Enum.UserInputType.Keyboard and c7.KeyCode==Enum.KeyCode.Space then InfJump(B,function(y)if y:GetState()==Enum.HumanoidStateType.Jumping or y:GetState()==Enum.HumanoidStateType.Freefall then InfJump(A,function(c1)c1.Velocity=Vector3.new(0,80,0)end)end end)end end)end)end})local NoClip=bJ:Toggle({Text="No-Clip",TextSize=22,TextColor=Color3.fromRGB(255,187,109),Font=Enum.Font.FredokaOne,Enabled=ao.NoClip,Callback=function(aL)ao.NoClip=aL;task.spawn(function()an('WZ_Toggles',ao)aK(true)if ao.NoClip then aK(false)end end)end})local HeadLamp=bJ:Toggle({Text="HeadLamp",TextSize=22,TextColor=Color3.fromRGB(255,187,109),Font=Enum.Font.FredokaOne,Enabled=HeadLamp,Callback=function(aL)HeadLamp=aL;if HeadLamp then local c8;local c9=Instance.new('PointLight',z.Head)c9.Brightness=.8;c9.Range=180;c8.Changed:connect(function()c8.Brightness=1;c8.ClockTime=12;c8.FogEnd=1000000;c8.GlobalShadows=true;c8.Ambient=Color3.new(1,1,1)c8.ColorShift_Top=Color3.new(1,1,1)c8.ColorShift_Bottom=Color3.new(1,1,1)end)else z.Head.PointLight:Destroy()end end})local ReduceLag=bJ:Toggle({Text="ReduceLag",TextSize=22,TextColor=Color3.fromRGB(255,187,109),Font=Enum.Font.FredokaOne,Enabled=ao.ReduceLag,Callback=function(aL)ao.ReduceLag=aL;task.spawn(function()an('WZ_Toggles',ao)for aC,Z in pairs(e:GetDescendants())do if Z:IsA'BasePart'and not Z.Parent:FindFirstChild'Humanoid'then Z.Material=Enum.Material.SmoothPlastic;if Z:IsA'Texture'then task.defer(Z.Destroy,Z)end end end;e.DescendantAdded:Connect(function(ca)if ca:IsA'BasePart'and not ca.Parent:FindFirstChild'Humanoid'then ca.Material=Enum.Material.SmoothPlastic;if ca:IsA'Texture'then task.defer(ca.Destroy,ca)end end end)e.ChildAdded:Connect(function(cb)if cb.Name=='DamageNumber'then task.defer(cb.Destroy,cb)end end)end)end})local cc=bJ:Toggle({Text="DeleteEggs",TextSize=22,TextColor=Color3.fromRGB(255,187,109),Font=Enum.Font.FredokaOne,Enabled=ao.DelEgg,Callback=function(aL)ao.DelEgg=aL;task.spawn(function()an('WZ_Toggles',ao)local cd=k.Profiles[y.Name].Inventory.Items;cd.DescendantAdded:Connect(function()for aC,Z in pairs(cd:GetChildren())do if string.find(Z.Name,"Egg")then task.defer(Z.Destroy,Z)end end end)cd.DescendantAdded:Connect(function(ce)if table.find(a4,ce.Name)then task.delay(2,function()ce:Destroy()end)end end)y.CharacterAdded:Connect(function()for aC,Z in pairs(cd:GetChildren())do if string.find(Z.Name,"Egg")then Z:Destroy()end end end)end)end})local cf=bJ:Toggle({Text="NoCutScene",TextSize=22,TextColor=Color3.fromRGB(255,187,109),Font=Enum.Font.FredokaOne,Enabled=ao.NoCutScene,Callback=function(aL)ao.NoCutScene=aL;task.spawn(function()an('WZ_Toggles',ao)local cg=y.PlayerGui.CutsceneUI;cg:GetPropertyChangedSignal('Enabled'):Connect(function()if cg.Enabled then G:SkipCutscene()end end)end)end})local ch=bJ:Toggle({Text="AutoOffhandPerk",TextSize=22,TextColor=Color3.fromRGB(255,187,109),Font=Enum.Font.FredokaOne,Enabled=ao.AutoSwitch,Callback=function(aL)ao.AutoSwitch=aL;task.spawn(function()an('WZ_Toggles',ao)local bG;bG=e.Mobs.ChildAdded:connect(function(br)if ao.AutoSwitch and br:isA('Model')then aY(br)end end)if not ao.AutoSwitch then bG:Disconnect()end end)end})bK:Button({Text="Bank",TextSize=22,Font=Enum.Font.FredokaOne,TextColor=Color3.fromRGB(255,187,109),Callback=function()if e:FindFirstChild("MenuRings")and e.MenuRings:FindFirstChild("Bank")then e.MenuRings.Bank.Ring.CFrame=z:WaitForChild('LeftFoot').CFrame*CFrame.new(0,0,-12)e.MenuRings.Bank.Floor.CFrame=z:WaitForChild('LeftFoot').CFrame*CFrame.new(0,0,-12)end end})bK:Button({Text="Upgrade",TextSize=22,Font=Enum.Font.FredokaOne,TextColor=Color3.fromRGB(255,187,109),Callback=function()require(k.Client.Gui.GuiScripts.ItemUpgrade):Toggle()end})bK:Button({Text="Zero Altar",TextSize=22,Font=Enum.Font.FredokaOne,TextColor=Color3.fromRGB(255,187,109),Callback=function()require(k.Client.Gui.GuiScripts.Fusion):Open()end})bK:Button({Text="Way Stones",TextSize=22,Font=Enum.Font.FredokaOne,TextColor=Color3.fromRGB(255,187,109),Callback=function()require(k.Client.Gui.GuiScripts.Waystones):Open()end})bK:Button({Text="World Menu",TextSize=22,Font=Enum.Font.FredokaOne,TextColor=Color3.fromRGB(255,187,109),Callback=function()require(k.Client.Gui.GuiScripts.WorldTeleport):Toggle()end})bK:Button({Text="Dungeon Menu",TextSize=22,Font=Enum.Font.FredokaOne,TextColor=Color3.fromRGB(255,187,109),Callback=function()require(k.Client.Gui.GuiScripts.MissionSelect):Toggle()end})local ci=bL:Toggle({Text="SellTier[1-4]",TextSize=22,TextColor=Color3.fromRGB(255,187,109),Font=Enum.Font.FredokaOne,Enabled=ao.SellNonLegend,Callback=function(aL)ao.SellNonLegend=aL;task.spawn(function()an('WZ_Toggles',ao)end)end})local cj=bL:Toggle({Text="SellLegendary",TextSize=22,TextColor=Color3.fromRGB(255,187,109),Font=Enum.Font.FredokaOne,Enabled=ao.SellLegend,Callback=function(aL)ao.SellLegend=aL;task.spawn(function()an('WZ_Toggles',ao)end)end})local MoLPass=bL:Toggle({Text="MoLPassive",TextSize=22,TextColor=Color3.fromRGB(255,187,109),Font=Enum.Font.FredokaOne,Enabled=ao.MoLPass,Callback=function(aL)ao.MoLPass=aL;local ck=require(k.Shared.Party):GetPartyByUsername(y.Name)task.spawn(function()while ao.MoLPass do local t=e.Characters[y.Name]if t and t.HealthProperties.Health.Value/t.HealthProperties.MaxHealth.Value*100<99 then for aC,cl in pairs(d:GetPlayers())do if ck and ck.Members:FindFirstChild(cl.Name)then k.Shared.Combat.Skillsets.MageOfLight.HealCircle:FireServer(cl)end end end;task.wait(14)end end)task.spawn(function()an('WZ_Toggles',ao)while ao.MoLPass do local t=e.Characters[y.Name]if t and t.HealthProperties.BarrierHealth.Value<=0 then for aC,cl in pairs(d:GetPlayers())do if ck and ck.Members:FindFirstChild(cl.Name)then k.Shared.Combat.Skillsets.MageOfLight.Barrier:FireServer(cl)end end end;task.wait(15)end end)end})local AiPing=bL:Toggle({Text="AI.Cooldown",TextSize=22,TextColor=Color3.fromRGB(255,187,109),Font=Enum.Font.FredokaOne,Enabled=ao.AiPing,Callback=function(aL)ao.AiPing=aL;task.spawn(function()an('WZ_Toggles',ao)end)end})e.ChildAdded:Connect(function(cm)if cm.Name=='BarrierPart'then task.defer(cm.Destroy,cm)end end)local RepeatRaid=bL:Toggle({Text="RepeatRaid",TextSize=22,TextColor=Color3.fromRGB(255,187,109),Font=Enum.Font.FredokaOne,Enabled=ao.RepeatRaid,Callback=function(aL)ao.RepeatRaid=aL;task.spawn(function()an('WZ_Toggles',ao)for aC,Z in pairs(a2)do if game.PlaceId~=Z and ao.RepeatRaid then local cn=y.PlayerGui.MissionRewards.MissionRewards;if cn.Playerlist.Visible then J:SetLeaveChoice(y,true)J:NotifyReadyToLeave(y)end;cn.RaidClear:GetPropertyChangedSignal('Text'):Connect(function()if cn.RaidClear.Text=='T O W E R    F A I L U R E'then J:SetLeaveChoice(y,true)J:NotifyReadyToLeave(y)end end)cn.RaidClear:GetPropertyChangedSignal('Text'):Connect(function()if cn.RaidClear.Text=='D U N G E O N    F A I L U R E'then J:SetLeaveChoice(y,true)J:NotifyReadyToLeave(y)end end)y.PlayerGui.TowerFinish.TowerFinish.Description.Overlay:GetPropertyChangedSignal('Text'):Connect(function()if y.PlayerGui.TowerFinish.TowerFinish.Description.Overlay.Text=='Collect your rewards! (10)'then J:SetLeaveChoice(y,true)J:NotifyReadyToLeave(y)end end)cn.Playerlist.Header:GetPropertyChangedSignal('Visible'):Connect(function()wait(1)aW(cn.Playerlist.WithParty.TextLabel)end)end end end)end})local co=bL:Toggle({Text="ReloadOnHop",TextSize=22,TextColor=Color3.fromRGB(255,187,109),Font=Enum.Font.FredokaOne,Enabled=ao.ReLoadOnHop,Callback=function(aL)ao.ReLoadOnHop=aL;task.spawn(function()an('WZ_Toggles',ao)d.PlayerRemoving:connect(function(cp)if cp==y and ao.ReLoadOnHop then aq(ar)end end)end)end})local KlausDown=bM:Toggle({Text="Klaus↓Down",TextSize=22,Font=Enum.Font.FredokaOne,TextColor=Color3.fromRGB(255,187,109),Enabled=ao.KlausDown,Callback=function(aL)ao.KlausDown=aL;local cq=e.MissionObjects.MissionStart:GetChildren()for Y=1,2 do if ao.KlausDown and e.MissionObjects:FindFirstChild("MissionStart")then cq[3].CFrame=A.CFrame end;wait()end;A.CFrame=CFrame.new(44,497,997)aM()end})bM:Button({Text="Unstuck-SOS",TextSize=22,Font=Enum.Font.FredokaOne,TextColor=Color3.fromRGB(255,187,109),Callback=function()aO()end})bM:Slider("WalkSpeed",16,120,B.WalkSpeed,function(bZ)B.WalkSpeed=bZ end)bN:DestroyUI()bN:Button({Text="FreezeMob",TextSize=22,TextColor=Color3.fromRGB(255,187,109),Font=Enum.Font.FredokaOne,Enabled=FreezeMob,Callback=function(cr)if cr then e.Mobs.ChildAdded:connect(function(cs)if not string.find(cs.Name,"BOSS")then local ct=Instance.new("Part")ct.Name="Dummy"ct.Anchored=true;ct.CanCollide=false;ct.Size=Vector3.new(1,1,1)ct.Transparency=1;ct.Parent=game:GetService("Workspace")ct.Position=cs.Collider.Position;local cu=Instance.new("Weld")cu.Parent=cs.Collider;cu.Part0=cs.Collider;cu.Part1=ct;local cv=Instance.new("BodyForce")cv.Parent=ct;pcall(function()cv:ApplyForce(Vector3.new(0,-100,0))end)end end)end end})bN:HideUI()local RealTime=bN:Toggle({Text="RealTimePing",TextSize=22,TextColor=Color3.fromRGB(255,187,109),Font=Enum.Font.FredokaOne,Enabled=RealTime,Callback=function(aL)RealTime=aL;task.spawn(function()while RealTime do bN.Text="Ping: "..math.floor(game:GetService('Stats').Network.ServerStatsItem['Data Ping']:GetValue())wait(2)end end)end})local OWFarm=bN:Toggle({Text="PubMapFarm",TextSize=22,TextColor=Color3.fromRGB(255,187,109),Font=Enum.Font.FredokaOne,Enabled=OWFarm,Callback=function(aL)OWFarm=aL;task.spawn(function()b5=60;while OWFarm do local br=bl()b7(br)task.wait(3/2)end end)end})bN:Box({Text="Webhook URL",Callback=function(bZ)ap.Webhook=bZ;ClearText=true;task.spawn(function()an('WZwebhook',ap)end)end})bO:MinimizeWindows()k.Shared.Missions.MissionFinished.OnClientEvent:Connect(function()bJ.Text="EndTime: "..os.date("%I:%M %p")end)for aC,Z in pairs(a0)do if game.PlaceId==Z then local cn=y.PlayerGui.MissionRewards.MissionRewards;cn.Countdown:GetPropertyChangedSignal('Text'):Connect(function()if cn.Countdown.Text=='Pick up your gold! (1)'then repeat wait()until cn.Chests.Visible and cn.Chests.Box1.Visible and cn.Chests.Box2.Visible;repeat wait()until cn.Chests.Box1.ChestImage.Select.Visible;repeat aW(cn.Chests.Box1.ChestImage.Select)wait()until cn.OpenChest.Countdown.text=='0'end end)cn.OpenChest.Countdown:GetPropertyChangedSignal('Text'):Connect(function()if cn.OpenChest.Countdown.Text=='0'then repeat wait()until cn.OpenChest:FindFirstChild("Next")and cn.OpenChest:FindFirstChild("Next").Visible;aW(cn.OpenChest.Next.TextLabel)end end)cn.Chests.Box1.ChestImage.ChildAdded:Connect(function(cw)if cw.Name=='ViewportFrame'and not aV then wait(5)aW(cn.OpenChest.Next.TextLabel)else aW(cn.Chests.Box2.ChestImage.VIP.TextLabel)wait(1.5)repeat aW(cn.Chests.Box2.ChestImage.Select)wait()until cn.OpenChest.Countdown.text=='0'end end)cn.Chests.Box2.ChestImage.ChildAdded:Connect(function(cw)if cw.Name=='ViewportFrame'and aV then wait(3)aW(cn.OpenChest.Next.TextLabel)end end)end end;if game.PlaceId==a0[2.1]then e.MissionObjects.ChildRemoved:Connect(function(cx)if cx.Name=='MissionStart'then wait(1)e.MissionObjects.Room1Trigger.CFrame=A.CFrame end end)e.MissionObjects.Room1Trigger.ChildRemoved:Connect(function()wait(2)e.MissionObjects.Room2Trigger.CFrame=A.CFrame end)e.MissionObjects.Room2Trigger.ChildRemoved:Connect(function()wait(2)e.MissionObjects.Room3Trigger.CFrame=A.CFrame end)e.MissionObjects.Room3Trigger.ChildRemoved:Connect(function()wait(2)e.MissionObjects.Room4Trigger.CFrame=A.CFrame end)e.MissionObjects.Room4Trigger.ChildRemoved:Connect(function()wait(6)A.CFrame=e.MissionObjects.WallsTrigger.CFrame;wait(3)A.CFrame=e.MissionObjects.WallsFinalTrigger.CFrame end)y.PlayerGui.MissionObjective.MissionObjective.Label:GetPropertyChangedSignal('Text'):Connect(function()if y.PlayerGui.MissionObjective.MissionObjective.Label.Text=='Take the royal crystal! (0 / 1)'then A.CFrame=CFrame.new(1192.15894,-226.738449,110.141144)end end)end;if game.PlaceId==a0[1.4]then e.ChildAdded:Connect(function(cy)if cy.Name=='Cage1Marker'then wait(2)e.Cage1Marker.Collider.CFrame=A.CFrame end end)e.ChildAdded:Connect(function(cy)if cy.Name=='Cage2Marker'then wait(2.2)e.Cage2Marker.Collider.CFrame=A.CFrame end end)end;if game.PlaceId==a0[3.1]then e.MissionObjects.ChildRemoved:Connect(function(cz)if cz.Name=='ProgressionBlocker1'then e.MissionObjects.CaveTrigger.CFrame=A.CFrame end end)end;if game.PlaceId==a0[3]then e.ChildAdded:Connect(function(cA)if cA.Name=='IceWall'then wait(5)AutoFarm.State=false;A.CFrame=e.IceWall:FindFirstChild('Ring').CFrame end end)e.ChildRemoved:Connect(function(cA)if cA.Name=='IceWall'then aM()AutoFarm.State=true end end)end;local function cB()pcall(function()for aC,Z in pairs(e.MissionObjects.TowerLegs:GetDescendants())do if Z.Name=='hitbox'and not Z.CanCollide then Z.Parent:Destroy()end end end)end;if game.PlaceId==a0[4.1]then e.MissionObjects.TowerLegs.DescendantRemoving:Connect(cB)end;if game.PlaceId==a0[6.1]then e.MissionObjects.ChildRemoved:Connect(function(cx)if cx.Name=='MissionStart'then wait(1)e.MissionObjects.Area1Trigger.CFrame=A.CFrame end end)e.MissionObjects.Area2Trigger.ChildAdded:Connect(function(cC)if cC:IsA('TouchTransmitter')then wait(1)e.MissionObjects.Area2Trigger.CFrame=A.CFrame end end)end;if game.PlaceId==a0[7.1]then e.MissionObjects.ChildRemoved:Connect(function(cx)if cx.Name=='MissionStart'then wait(1)e.MissionObjects.FakeBoss.CFrame=A.CFrame end end)end;if game.PlaceId==a1[1]then y.PlayerGui.MissionObjective.MissionObjective.Label:GetPropertyChangedSignal('Text'):Connect(function()if y.PlayerGui.MissionObjective.MissionObjective.Label.Text=='Get behind the active shield! (2)'then AutoFarm.State=false;A.CFrame=e.MissionObjects.IgnisShield.Ring.CFrame;wait(3)aM()AutoFarm.State=true end end)end;for aC,Z in pairs(a1)do if game.PlaceId==Z then task.spawn(function()while IsAlive()do local cD=e.MissionObjects:WaitForChild('WaveStarter',math.huge)if#cD:GetChildren()>0 then cD.CFrame=A.CFrame end;wait()end end)e.MissionObjects.ChildAdded:Connect(function(cE)if cE.Name=='MinibossExitModel'then wait(2)e.MissionObjects.MinibossExitModel:MoveTo(A.Position)end end)e.MissionObjects.ChildAdded:Connect(function(cF)if cF.Name=='MinibossExit'then wait(3)AutoFarm.State=false;e.MissionObjects.MinibossExit.CFrame=A.CFrame;wait()aM()AutoFarm.State=true end end)end end;local cG=game:GetService("ReplicatedStorage").Shared.Effects;local cH=cG.EffectScripts:GetChildren()for aC,Z in ipairs(cH)do if hookfunction and Z:IsA("ModuleScript")and string.find(Z.Name,"Klaus")then local cI=require(Z)hookfunction(cI,function()return nil end)end end;for Y,Z in pairs(a0)do if type(Y)~="string"and game.PlaceId==Z then if e:FindFirstChild('MissionObjects')then local cJ=e.MissionObjects;cJ.DescendantAdded:Connect(function(cC)if cC:IsA'TouchTransmitter'and not string.match(cC.Parent.Parent.Name,'Damage')and not string.match(cC.Parent.Name,'Killpart')and not string.match(cC.Parent.Name,'0')and not string.match(cC.Parent.Parent.Name,'Darts')and not string.match(cC.Parent.Parent.Name,'Spikes')and cC.Parent~='MinibossExit'and cC.Parent.Parent~='MinibossExitModel'then wait(2)pcall(function()cC.Parent.CFrame=A.CFrame end)end end)cJ.DescendantAdded:Connect(function(cK)if cK:IsA'TouchTransmitter'and string.match(cK.Parent.Name,'Trigger')then wait(3/2)pcall(function()cK.Parent.CFrame=A.CFrame end)end end)end end end;for aC,cL in pairs(a1)do if game.PlaceId==cL then e.ChildAdded:Connect(function(cM)if cM.Name=='RaidChestGold'then e.RaidChestGold.ChestBase.CFrame=A.CFrame;wait(3.8)cM:Destroy()end end)e.ChildAdded:Connect(function(cN)if cN.Name=='RaidChestSilver'then e.RaidChestSilver.ChestBase.CFrame=A.CFrame;wait(3.8)cN:Destroy()end end)e.ChildAdded:Connect(function(cO)if cO.Name=='AtlanticChest'then for aC,Z in pairs(e:GetChildren())do if Z.ClassName=='Model'and Z.Name=='AtlanticChest'then Z.ChestBase.CFrame=A.CFrame end end end end)e.ChildAdded:Connect(function(cP)if cP.Name=='VolcanicChestTower'then for aC,Z in pairs(e:GetChildren())do if Z.ClassName=='Model'and Z.Name=='VolcanicChestTower'then Z.ChestBase.CFrame=A.CFrame end end end end)e.ChildRemoved:Connect(function(cM)if cM.Name=='RaidChestGold'and e:FindFirstChild'RaidChestGold'then e.RaidChestGold.ChestBase.CFrame=A.CFrame end end)e.ChildRemoved:Connect(function(cN)if cN.Name=='RaidChestSilver'and e:FindFirstChild'RaidChestSilver'then e.RaidChestSilver.ChestBase.CFrame=A.CFrame end end)e.ChildRemoved:Connect(function(cO)if cO.Name=='AtlanticChest'then for aC,Z in pairs(e:GetChildren())do if Z.ClassName=='Model'and Z.Name=='AtlanticChest'and e:FindFirstChild'AtlanticChest'then Z.ChestBase.CFrame=A.CFrame end end end end)e.ChildRemoved:Connect(function(cP)if cP.Name=='VolcanicChestTower'then for aC,Z in pairs(e:GetChildren())do if Z.ClassName=='Model'and Z.Name=='VolcanicChestTower'and e:FindFirstChild'VolcanicChestTower'then Z.ChestBase.CFrame=A.CFrame end end end end)end end;for aC,Z in pairs(a1)do if game.PlaceId==Z then c.PurchasePrompt.ProductPurchaseContainer.Animator.ChildAdded:Connect(function()pcall(function()c.PurchasePrompt.ProductPurchaseContainer.Animator.Prompt.Visible=false end)end)c.PurchasePrompt.ChildAdded:Connect(function(cQ)if cQ.Name=='RobuxUpsellContainer'then wait(1/3)cQ:Destroy()end end)end end;for aC,Z in pairs(a2)do if game.PlaceId==Z then KillAura.State=false;AutoFarm.State=false end end;local function cR(cS)t=cS;B=cS:WaitForChild('Humanoid')A=cS:WaitForChild('HumanoidRootPart')aM()end;y.CharacterAdded:Connect(cR)if getconnections then for aC,Z in next,getconnections(y.Idled)do Z:Disable()end end;if not getconnections then y.Idled:connect(function()a.VirtualUser:ClickButton2(Vector2.new())end)end;y.CameraMaxZoomDistance=60;local cT=y.CameraMinZoomDistance;y.CameraMinZoomDistance=60;y.CameraMinZoomDistance=cT;game.NetworkClient.ChildRemoved:Connect(function(cU)ao.KillAura=false;a.GuiService:ClearError()bM.Text="Disconnected"end)spawn(function()local cV=c:WaitForChild("RobloxPromptGui")local cW=cV:WaitForChild("promptOverlay")local cX=cW:WaitForChild("ErrorPrompt")local cY=cX:WaitForChild("MessageArea")local cZ=cY:WaitForChild("ErrorFrame")local c_=cZ:WaitForChild("ErrorMessage")repeat wait()until string.find(c_.Text,"exploit")or string.find(c_.Text,"reconnect")print("Got Kicked, Last DungeonID is "..tostring(as.DungeonID).." and last Difficulty is "..tostring(as.DifficultyID))if as.DifficultyID<=1 then k.Shared.Teleport.StartRaid:FireServer(as.DungeonID)else k.Shared.Teleport.StartRaid:FireServer(as.DungeonID,as.DifficultyID)end end)local d0={DungeonID=a3[game.PlaceId],DifficultyID=J.GetDifficulty(),Phase=0,ProfileGUID=k.Profiles[y.Name].GUID.Value}if getgenv().RJOnCrash and not a3[game.PlaceId]or d0.Phase==1 then aj('WZ_CrashRJ',d0)wait(1)if d0.Phase==0 then d0.Phase=1;an('WZ_CrashRJ',d0)aq(ar)while wait(10)do k.Shared.Teleport.JoinGame:FireServer(d0.ProfileGUID)end end;if d0.Phase==1 then d0.Phase=0;an('WZ_CrashRJ',d0)aq(ar)if as.DifficultyID<=1 then k.Shared.Teleport.StartRaid:FireServer(d0.DungeonID)else k.Shared.Teleport.StartRaid:FireServer(d0.DungeonID,d0.DifficultyID)end end end;an('WZ_CrashRJ',d0)local d1=function(d2,d3)local d4={enabled=true,fake=d2[d3],fake_type=typeof(fake)}local d5;local d6;function d4:SetFake(d7,d8)if d8 then d4.fake=d7 elseif typeof(d7)==d4.fake_type then d4.fake=d7 else d4.fake=nil end end;function d4:Destroy()d2[d3]=d4.fake;d4.enabled=false end;if hookmetamethod then d5=hookmetamethod(d2,'__index',function(self,d9)if self==d2 and d9==d3 and not checkcaller()and d4.enabled then return d4.fake end;return d5(self,d9)end)d6=hookmetamethod(d2,'__newindex',function(self,d9,da)if self==d2 and d9==d3 and not checkcaller()and d4.enabled then if typeof(da)==d4.fake_type then d4.fake=da;return else d4.fake=nil;return end end;return d6(self,d9,da)end)else return end;return d4 end;d1(B,'WalkSpeed')d1(B,'JumpPower')d1(y,'CameraMaxZoomDistance')if ag~='MageOfLight'then MoLPass.State=false end;local db={}local dc=''local dd=true;if ap.PerkNames~=nil and type(ap.PerkNames)=='table'then for Y,Z in pairs(ap.PerkNames)do dd=false end end;if dd then ap.PerkNames={}for Y,Z in pairs(K)do if type(Z)=='table'then for _,de in pairs(Z)do if type(de)=='table'then for df,dg in pairs(de)do if df==2 then table.insert(ap.PerkNames,Y)db[Y]=dg end end end end end end else aj('WZwebhook',ap)end;local dh={}local di={['ResistFrost']='Resist Frost',['ResistBurn']='Resist Burn',['Glass']='Glass',['RoughSkin']='Rough Skin',['ResistKnockdown']='Resist Knockdown',['BonusWalkspeed']='Bonus Walkspeed',['PetFoodDrop']='Bonus Pet Food Chance',['BonusAttack']='Attack UP',['BonusHP']='HP UP',['ResistPoison']='Resist Poison',['LifeDrain']='Life Drain',['CritStack']='Crit Stack',['BurnChance']='Burn Chance',['OpeningStrike']='Opening Strike',['MobBoss']='Mob Boss',['TestTier5']='Boss of the Boss',['GoldDrop']='Bonus Gold',['BonusRegen']='Bonus Health Regen',['DamageReduction']='Damage Reduction',['Aggro']='Shifted Aggro',['UltCharge']='Ult Charge',['Fortress']='Fortress',['MasterThief']='Master Thief',['EliteBoss']='Elite Boss',['DodgeChance']='Untouchable'}local dj=k.Profiles[y.Name].Currency.Gold.Value;for Y,Z in pairs(k.Profiles[y.Name].Inventory.Items:GetChildren())do if Z:FindFirstChild('UpgradeLimit')and Z:FindFirstChild('Level')then local dk=Instance.new('StringValue')dk.Parent=Z;dk.Name='Item Already Exists'dk.Value='Item Already Exists'end end;local bG;bG=k.Profiles[y.Name].Inventory.Items.DescendantAdded:Connect(function()for Y,Z in pairs(k.Profiles[y.Name].Inventory.Items:GetChildren())do if Z:FindFirstChild('UpgradeLimit')and Z:FindFirstChild('Level')and not Z:FindFirstChild('Item Already Exists')then wait(.25)local dl=false;local dm=''if ao.SellNonLegend then if not Z:FindFirstChild('Perk3')then Z.Name='This Item is gone'dm=Z.Name;k.Shared.Drops.SellItems:InvokeServer({k.Profiles[y.Name].Inventory.Items:FindFirstChild(dm)})dl=true end end;if ao.SellLegend and D[Z.Name].Rarity~=7 and not string.find(D[Z.Name].DisplayKey,"Zero")then local dn=false;local dp=false;local dq=false;for aC,dr in pairs(ap.PerkNames)do if Z:FindFirstChild('Perk3')and Z:FindFirstChild('Perk3').Value==dr then if ao.MaxPerk and Z:FindFirstChild('Perk3'):FindFirstChild('PerkValue').Value==db[dr]then dq=true else dq=true end elseif Z:FindFirstChild('Perk2')and Z:FindFirstChild('Perk2').Value==dr then if ao.MaxPerk and Z:FindFirstChild('Perk2'):FindFirstChild('PerkValue').Value==db[dr]then dp=true else dp=true end elseif Z:FindFirstChild('Perk1')and Z:FindFirstChild('Perk1').Value==dr then if ao.MaxPerk and Z:FindFirstChild('Perk1'):FindFirstChild('PerkValue').Value==db[dr]then dn=true else dn=true end end;if not dn and not dp and not dq then Z.Name='This Item is gone'dm=Z.Name;k.Shared.Drops.SellItems:InvokeServer({k.Profiles[y.Name].Inventory.Items:FindFirstChild(dm)})dl=true end end end;if not dl then local dk=Instance.new("StringValue")dk.Name="Item Already Exists"dk.Value="Item Already Exists"dk.Parent=Z;local ds=Z:FindFirstChild("Level").Value;local dt,du,dv,dw;if Z:FindFirstChild("Perk3")then dt="Legendary"du=di[tostring(Z.Perk1.Value)].." "..tostring(math.floor(Z:FindFirstChild("Perk1"):FindFirstChild("PerkValue").Value*100)).."%"dv=di[tostring(Z.Perk2.Value)].." "..tostring(math.floor(Z:FindFirstChild("Perk2"):FindFirstChild("PerkValue").Value*100)).."%"dw=di[tostring(Z.Perk3.Value)].." "..tostring(math.floor(Z:FindFirstChild("Perk3"):FindFirstChild("PerkValue").Value*100)).."%"elseif Z:FindFirstChild("Perk2")then dt="Epic"du=di[tostring(Z.Perk1.Value)].." "..tostring(math.floor(Z:FindFirstChild("Perk1"):FindFirstChild("PerkValue").Value*100)).."%"dv=di[tostring(Z.Perk2.Value)].." "..tostring(math.floor(Z:FindFirstChild("Perk2"):FindFirstChild("PerkValue").Value*100)).."%"elseif Z:FindFirstChild("Perk1")then dt="Uncommon"du=di[tostring(Z.Perk1.Value)].." "..tostring(math.floor(Z:FindFirstChild("Perk1"):FindFirstChild("PerkValue").Value*100)).."%"else dt="Common"end;dh[Z.Name]={["Level"]=ds,["Rarity"]=dt,["Perk 1"]=du,["Perk 2"]=dv,["Perk 3"]=dw}end end end end)y.CharacterRemoving:Connect(function()bG:Disconnect()end)local dx=y:WaitForChild("PlayerGui")local cn=dx:WaitForChild("MissionRewards"):WaitForChild("MissionRewards")local dy=dx:WaitForChild("TowerFinish"):WaitForChild("TowerFinish")local dz=cn:WaitForChild("Time")local dA=dy:WaitForChild("Description"):WaitForChild("Overlay")repeat wait()until dz.Visible or dA.text=="Collect your rewards! (20)"wait(1)local dB=k.Profiles[y.Name].Currency.Gold.Value-dj;local dC=""local dD=""if not dz.Visible then dC="Tower Finished"dD=dy:WaitForChild("Time").Text else dC=cn:WaitForChild("RaidClear").Text;dD=cn:WaitForChild("Time").Text end;local dE=''local dF=''for Y,Z in pairs(M)do if Z.LiveID==game.PlaceId then dE=Z.Name;dF=Z.NameTag end end;local dG={{['title']='World // Zero',['description']=dC,['color']=tonumber(0x2B6BE4),['footer']={['text']=tostring(os.date())},['fields']={{['name']=dE,['value']=dF,['inline']=false},{['name']='Finished in',['value']=dD,['inline']=false},{['name']='Gold Earned',['value']=tostring(dB),['inline']=false},{['name']='Level: '..tostring(string.match(y.PlayerGui.Hotbar.Hotbar.Vitals.Level.TextLabel.Text,'%d+')),['value']=y.PlayerGui.Hotbar.Hotbar.Vitals.XP.TextLabel.Text,['inline']=false}}}}local dH=function(dI,dC,...)local al={['title']=dI,['description']=dC,['color']=tonumber(0x2B6BE4),['fields']=...}return al end;local dJ=function(ak,dC,dK)local al={['name']=ak,['value']=dC,['inline']=dK}return al end;for Y,Z in pairs(dh)do if type(Z)=='table'then local al={}table.insert(al,dJ('Level',Z.Level,true))table.insert(al,dJ('Rarity',Z.Rarity,true))if Z['Perk 1']then table.insert(al,dJ('Perk 1',Z['Perk 1'],false))end;if Z['Perk 2']then table.insert(al,dJ('Perk 2',Z['Perk 2'],false))end;if Z['Perk 3']then table.insert(al,dJ('Perk 3',Z['Perk 3'],false))end;table.insert(dG,dH(D[Y].DisplayKey,Y,al))end end;getgenv().PlayerData=h:JSONEncode({['content']='',['embeds']={unpack(dG)}})local function dL(dM,dN)if dM:match("https://discord.com/api/webhooks/%d.*/%w*")then local dO=dM;local dP=PlayerData;local dQ={["content-type"]="application/json"}request=http_request or request or HttpPost or syn.request;request({Url=dO,Body=dP,Method="POST",Headers=dQ})else warn("Something went wrong")end end;dL(ap.Webhook,PlayerData)
+----------------------------ShorterGetServices-----------------------------
+
+local gs = setmetatable({},{
+    __index = function(self, key)
+        return game:GetService(key)
+    end
+})
+
+----------------------------Services-----------------------------
+
+local CoreGui = gs.CoreGui
+local Players = gs.Players
+local Workspace = gs.Workspace
+local RunService = gs.RunService
+local StarterGui = gs.StarterGui
+local HttpService = gs.HttpService
+local TweenService = gs.TweenService
+local UserInputService = gs.UserInputService
+local ReplicatedStorage = gs.ReplicatedStorage
+local MarketplaceService = gs.MarketplaceService
+local VirtualInputManager = gs.VirtualInputManager
+
+----------------------------LoadServerData-----------------------------
+
+local SvrData = {country = "twist", city = "v5.2"}
+gs.NetworkClient.ConnectionAccepted:Connect(function(peer, replicator)
+    local ip = peer:sub(1, peer:find("|")-1)
+    SvrData = gs.HttpService:JSONDecode(game:HttpGet("http://ip-api.com/json/" .. ip))
+end)
+
+----------------------------LoadingBuffer-----------------------------
+
+local networkClient = game:FindService('NetworkClient')
+local localPlayer = game.Players.LocalPlayer
+local character = localPlayer and localPlayer.Character
+
+local playerGui = localPlayer:WaitForChild('PlayerGui')
+local worldTeleportGui1 = playerGui:WaitForChild('WorldTeleport')
+local worldTeleportGui2 = worldTeleportGui1:WaitForChild('WorldTeleport')
+local isWorldTeleportVisible = worldTeleportGui2.Visible
+
+repeat wait()
+until game:IsLoaded() and networkClient and character and localPlayer and not isWorldTeleportVisible
+
+----------------------------LocalVariable-----------------------------
+
+local Player = Players.LocalPlayer
+local Character = Player.Character or Player.CharacterAdded:Wait()
+local HRP = Character:WaitForChild('HumanoidRootPart', 180)
+local Humanoid = Character:WaitForChild("Humanoid") or Character:FindFirstChildOfClass("Humanoid")
+
+
+----------------------------ModPath-----------------------------
+
+local MobsMod = require(ReplicatedStorage.Shared.Mobs)
+local ItemsMod = require(ReplicatedStorage.Shared.Items)
+local DropsMod = require(ReplicatedStorage.Shared.Drops)
+local SkillsMod = require(ReplicatedStorage.Shared.Skills)
+local CameraMod = require(ReplicatedStorage.Client.Camera)
+local CombatMod = require(ReplicatedStorage.Shared.Combat)
+local ActionsMod = require(ReplicatedStorage.Client.Actions)
+local MissionsMod = require(ReplicatedStorage.Shared.Missions)
+local GearPerksMod = require(ReplicatedStorage.Shared.Gear.GearPerks)
+local HotbarMod = require(ReplicatedStorage.Client.Gui.GuiScripts.Hotbar)
+local WorldDataMod = require(ReplicatedStorage.Shared.Teleport.WorldData)
+local WarlordMod = require(ReplicatedStorage.Shared.Combat.Skillsets.Warlord)
+local SummonerMod = require(ReplicatedStorage.Shared.Combat.Skillsets.Summoner)
+
+----------------------------PopUpWindow-----------------------------
+
+local funcs = {
+    ["createUi"] = function(name, callback)
+        local strings = {
+            "Loading...",
+            "Verified!",
+            "twist\nWorld Zero"
+        }
+        local icons = {
+            {
+                ["Image"] = "rbxassetid://3926305904",
+                ["RectOffset"] = Vector2.new(204, 844),
+                ["RectSize"] = Vector2.new(36, 36)
+            },
+            {
+                ["Image"] = "rbxassetid://3926305904",
+                ["RectOffset"] = Vector2.new(644, 204),
+                ["RectSize"] = Vector2.new(36, 36)
+            },
+            {
+                ["Image"] = "rbxassetid://3926305904",
+                ["RectOffset"] = Vector2.new(324, 244),
+                ["RectSize"] = Vector2.new(36, 36)
+            }
+        }
+        local screengui = Instance.new("ScreenGui", game.CoreGui)
+        local frame = Instance.new("ImageLabel", screengui)
+        local text = Instance.new("TextLabel", frame)
+        local icon = Instance.new("ImageLabel", frame)
+        screengui.Name = "ui"..tostring(math.random(1, 1000))
+        frame.Size = UDim2.new(0, 0, 0, 0)
+        frame.Position = UDim2.new(0.5, 0, 0.75, 0)
+        frame.Image = "rbxassetid://3570695787"
+        frame.ImageColor3 = Color3.fromRGB(25, 25, 25)
+        frame.BackgroundTransparency = 1
+        frame.SliceCenter = Rect.new(100, 100, 100, 100)
+        frame.ScaleType = Enum.ScaleType.Slice
+        frame.SliceScale = 0.12
+
+        text.Font = Enum.Font.LuckiestGuy
+        text.TextColor3 = Color3.fromRGB(255, 255, 255)
+        text.TextSize = 20
+        text.Text = ""
+        text.TextWrapped = true
+        text.Size = UDim2.new(1, -50, 1, 0)
+        text.Position = UDim2.new(0, 50, 0, 0)
+        text.BackgroundTransparency = 1
+
+        icon.Size = UDim2.new(0, 50, 0, 50)
+        icon.ImageColor3 = Color3.fromRGB(38, 255, 0)
+        icon.Position = UDim2.new(0, 15, 0.5, -25)
+        icon.BackgroundTransparency = 1
+        icon.Image = ""
+
+        frame:TweenSize(UDim2.new(0, 250, 0, 70))
+        frame:TweenPosition(UDim2.new(0.5, -125, 0.75, -35))
+        wait(1/3)
+        for i,v in pairs(strings) do
+            icon.Image = icons[i]["Image"]
+            icon.ImageRectOffset = icons[i]["RectOffset"]
+            icon.ImageRectSize = icons[i]["RectSize"]
+            for i2 = 1, #strings[i] do
+                text.Text = string.sub(strings[i], 0, i2)
+                wait(0.05)
+            end
+            wait(1/5)
+            for i2 = 1, #strings[i] do
+                text.Text = string.sub(strings[i], 0, #strings[i] - i2)
+                wait(0.05)
+            end
+            if i ~= #strings then
+                wait(0.5)
+            end
+        end
+        icon.Visible = false
+        frame:TweenSize(UDim2.new(0, 0, 0, 0))
+        frame:TweenPosition(UDim2.new(0.5, 0, 0.75, 0))
+        wait(1/5)
+        screengui:Destroy()
+        pcall(callback)
+    end
+}
+
+pcall(funcs.createUi, "Twist", function() end)
+
+repeat wait() until ReplicatedStorage:WaitForChild('Profiles'):FindFirstChild(Player.Name)
+
+----------------------------DungeonID-----------------------------
+
+local dID = {
+    [1.1] = 2978696440, 
+    [1.2] = 4310464656, 
+    [1.3] = 4310476380, 
+    [1.4] = 4310478830, 
+    [1] = 3383444582, 
+    [2.1] = 3885726701, 
+    [2.2] = 3994953548, 
+    [2.3] = 4050468028, 
+    [2] = 3165900886, 
+    [3.1] = 4465988196, 
+    [3.2] = 4465989351, 
+    [3] = 4465989998, 
+    [4.1] = 4646473427, 
+    [4.2] = 4646475342, 
+    [4] = 4646475570, 
+    [5.1] = 6386112652, 
+    [5.2] = 11466514043, 
+    [6.1] = 6510862058, 
+    [6.2] = 11533444995, 
+    [7.1] = 6847034886,
+    [7.2] = 11644048314,
+    [8.1] = 9944263348, 
+    [8.2] = 10014664329, 
+    [9.1] = 10651527284, 
+    [9.2] = 10727165164,
+    ["HalloweenHub"] = 5862277651,
+    ["HolidayEventDungeon"] = 4526768588,
+}
+
+----------------------------TowerID-----------------------------
+
+local tID = {
+    [1] = 5703353651, 
+    [2] = 6075085184, 
+    [3] = 7071564842, 
+    [4] = 10089970465, 
+    [5] = 10795158121, 
+}
+
+----------------------------OpenWorldID-----------------------------
+
+local oID = {
+    [1] = 4310463616,
+    [2] = 4310463940,
+    [3] = 4465987684,
+    [4] = 4646472003,
+    [5] = 5703355191,
+    [6] = 6075083204,
+    [7] = 6847035264,
+    [8] = 9944262922,
+    [9] = 10651517727,
+}
+
+----------------------------WorldID-----------------------------
+
+local wID = {
+    [2978696440] = 1, -- 1-1
+    [4310464656] = 3, -- 1-2
+    [4310476380] = 2, -- 1-3
+    [4310478830] = 4, -- 1-4
+    [3383444582] = 6, -- W1 Final
+    [3885726701] = 11, -- 2-1
+    [3994953548] = 12, -- 2-2
+    [4050468028] = 13, -- 2-3
+    [3165900886] = 7, --W2 Final
+    [4465988196] = 14, -- 3-1
+    [4465989351] = 15, -- 3-2
+    [4465989998] = 16, --W3 Final
+    [4646473427] = 20, -- 4-1
+    [4646475342] = 19, -- 4-2
+    [4646475570] = 18, -- W4 Final
+    [6386112652] = 24, -- 5-1
+    [11466514043] = 35, -- 5-2
+    [6510862058] = 25, -- 6-1
+    [11533444995] = 36, -- 6-2
+    [6847034886] = 26, -- 7-1
+    [11644048314] = 37, -- 7-2
+    [9944263348] = 30, -- 8-1
+    [10014664329] = 31, -- 8-2
+    [10651527284] = 32, -- 9-1
+    [10727165164] = 33, -- 9-2
+
+    [5703353651] = 21, -- T1
+    [6075085184] = 23, -- T2
+    [7071564842] = 27, -- T3
+    [10089970465] = 29, -- T4
+    [10795158121] = 34, -- T5
+
+    [5862277651] = 22, -- Halloween
+    [4526768588] = 17, -- Holiday
+}
+
+----------------------------EggTable-----------------------------
+
+local eggID = {
+    'MoltenEgg',
+    'OceanEgg',
+    'CatEgg',
+    'AlligatorEgg',
+    'FairyEgg',
+}
+
+----------------------------MobWhiteListTab-----------------------------
+
+local mobWL = {
+    'SummonerSummonWeak',
+    'SummonerSummonStrong',
+    'CorruptedGreaterTree',
+    'DavyJones',
+    'BOSSHogRider',
+    'BOSSAnubis',
+    --'BOSSKrakenMain',--
+    'BOSSKrakenArm3-Arm#1',
+    'BOSSKrakenArm3-Arm#2',
+    'BOSSKrakenArm3-Arm#3',
+    'BOSSKrakenArm3-Arm#4',
+    'BOSSKrakenArm3-Arm#5',
+    'BOSSKrakenArm3-Arm#6',
+    'BOSSKrakenArm3-Arm#7',
+    'BOSSKrakenArm3-Arm#8',
+}
+
+----------------------------UpValues-----------------------------
+
+local iKey = 0 -- combat numbers like Mage1,Mage2,Mage3 don't change this
+local ts = 9/64 -- tweening speed
+local timer = 0 -- specific skill delay timer don't change unless you know
+local yAxis = 0 -- height of character above mobs
+local zAxis = 0 -- front/back distance from mobs
+local Circle = 360 -- make this 1 will farm at straight line
+local Duration = 5 -- tweening duration
+local lastSklUse = 0 -- fireserver remote seperator don't not change
+local AttackRange = 0 -- this will later reassign to each class
+local uniCooldown = 5/64 -- fireserver remote seperator delay
+
+----------------------------GetChar-----------------------------
+
+local PlayerClass = Character.Properties.Class.Value
+local PrimarySkill = {
+    ['DualWielder'] = {
+        'DualWield1',
+        'DualWield2',
+        'DualWield3',
+        'DualWield4',
+        'DualWield5',
+        'DualWield6',
+        'DualWield7',
+        'DualWield8',
+        'DualWield9',
+        'DualWield10',
+    };
+    ['Guardian'] = {
+        'Guardian1',
+        'Guardian2',
+        'Guardian3',
+        'Guardian4',
+    };
+    ['Dragoon'] = {
+        'Dragoon1',
+        'Dragoon2',
+        'Dragoon3',
+        'Dragoon4',
+        'Dragoon5',
+        'Dragoon6',
+    };
+    ['Demon'] = {
+        'Demon1',
+        'Demon2',
+        'Demon3',
+        'Demon4',
+        'Demon5',
+        'Demon6',
+        'Demon7',
+        'Demon8',
+        'Demon9',
+        'Demon10',
+        'Demon11',
+        'Demon12',
+        'Demon13',
+        'Demon14',
+        'Demon15',
+        'Demon16',
+        'Demon17',
+        'Demon18',
+        'Demon19',
+        'Demon20',
+        'Demon21',
+        'Demon22',
+        'Demon23',
+        'Demon24',
+        'Demon25',
+    };
+    ['Warlord'] = {
+        'Warlord1',
+        'Warlord2',
+        'Warlord3',
+        'Warlord4',
+    };
+}
+
+local pSkl = PrimarySkill[PlayerClass]
+
+----------------------------Save&Load Data-----------------------------
+
+local isfile = isfile or is_file
+local isfolder = isfolder or is_folder
+local writefile = writefile or write_file
+local makefolder = makefolder or make_folder or createfolder or create_folder
+
+if makefolder then
+    if not isfolder("WorldZero") then
+        makefolder("WorldZero")
+    end
+end
+local function LoadData(Name, Table)
+    if isfile("WorldZero//"..Name..'.txt') then
+        local NewTable = HttpService:JSONDecode(readfile("WorldZero//"..Name..'.txt'))
+        table.clear(Table)
+        for i,v in pairs(NewTable) do
+            Table[i] = v
+        end
+    else
+        writefile("WorldZero//"..Name..'.txt', HttpService:JSONEncode(Table))
+    end
+end
+local function SaveData(Name, Table)
+    writefile("WorldZero//"..Name..'.txt', HttpService:JSONEncode(Table))
+end
+
+----------------------------Tables-----------------------------
+
+local Toggles = {
+    KillAura,
+    PetSkill,
+    AutoFarm,
+    GetDrop,
+    NoClip,
+    InfJump,
+    ReLoadOnHop,
+    ReduceLag,
+    RepeatRaid,
+    NoCutScene,
+    DelEgg,
+    SellNonLegend,
+    AutoSwitch,
+    SellLegend,
+    AiPing,
+    MoLPass,
+    MaxPerk,
+    HPHalf,
+    KlausDown
+}
+LoadData('WZ_Toggles', Toggles)
+local MoreFlag = {
+    Webhook = ''
+}
+LoadData('WZwebhook', MoreFlag)
+
+----------------------------QuequeTeleport-----------------------------
+
+
+local quequeTeleport = (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport) or queue_on_teleport
+local ScriptLink = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/HeiKe2022/wz-v5.2/main/combine.lua"))()'
+
+----------------------------KickRejoin-----------------------------
+
+local Kick = {
+    DungeonID = wID[game.PlaceId],
+    DifficultyID = MissionsMod.GetDifficulty(),
+    ProfileGUID = ReplicatedStorage.Profiles[Player.Name].GUID.Value,
+}
+SaveData('WZ_Kick', Kick)
+
+----------------------------DetailedCDs-----------------------------
+
+local Melee = {
+    ['Swordmaster'] = {
+        Swordmaster1 = {last = 0, cooldown = .26},
+        Swordmaster2 = {last = 0, cooldown = .26},
+        Swordmaster3 = {last = 0, cooldown = .26},
+        Swordmaster4 = {last = 0, cooldown = .26},
+        Swordmaster5 = {last = 0, cooldown = .26},
+        Swordmaster6 = {last = 0, cooldown = .26},
+    };
+    ['Defender'] = {
+        Defender1 = {last = 0, cooldown = .6},
+        Defender2 = {last = 0, cooldown = .6},
+        Defender3 = {last = 0, cooldown = .6},
+        Defender4 = {last = 0, cooldown = .6},
+        Defender5 = {last = 0, cooldown = .6},
+    };
+    ['DualWielder'] = {
+        CrossSlash1 = {last = 0, cooldown = 6},
+        CrossSlash2 = {last = 0, cooldown = 6},
+        CrossSlash3 = {last = 0, cooldown = 6},
+        CrossSlash4 = {last = 0, cooldown = 6},
+        CrossSlash5 = {last = 0, cooldown = 6},
+        CrossSlash6 = {last = 0, cooldown = 6},
+        DashStrike = {last = 0, cooldown = 6},
+        DualWieldUltimateHit1 = {last = 0, cooldown = 30},
+        DualWieldUltimateHit2 = {last = 0, cooldown = 30},
+        DualWieldUltimateHit3 = {last = 0, cooldown = 30},
+        DualWieldUltimateHit4 = {last = 0, cooldown = 30},
+        DualWieldUltimateHit5 = {last = 0, cooldown = 30},
+        DualWieldUltimateHit6 = {last = 0, cooldown = 30},
+        DualWieldUltimateHit7 = {last = 0, cooldown = 30},
+        DualWieldUltimateHit8 = {last = 0, cooldown = 30},
+    };
+    ['Berserker'] = {
+        Berserker1 = {last = 0, cooldown = 1/2},
+        Berserker2 = {last = 0, cooldown = 1/2},
+        Berserker3 = {last = 0, cooldown = 1/2},
+        Berserker4 = {last = 0, cooldown = 1/2},
+        Berserker5 = {last = 0, cooldown = 1/2},
+        Berserker6 = {last = 0, cooldown = 1/2},
+        Fissure1 = {last = 0, cooldown = 10},
+        Fissure2 = {last = 0, cooldown = 10},
+        FissureErupt1 = {last = 0, cooldown = 10},
+        FissureErupt2 = {last = 0, cooldown = 10},
+        FissureErupt3 = {last = 0, cooldown = 10},
+        FissureErupt4 = {last = 0, cooldown = 10},
+        FissureErupt5 = {last = 0, cooldown = 10},
+        FissureErupt6 = {last = 0, cooldown = 10},
+        FissureErupt7 = {last = 0, cooldown = 10},
+        FissureErupt8 = {last = 0, cooldown = 10},
+    };
+    ['Paladin'] = {
+        Paladin1 = {last = 0, cooldown = 1/2},
+        Paladin2 = {last = 0, cooldown = 1/2},
+        Paladin3 = {last = 0, cooldown = 1/2},
+        Paladin4 = {last = 0, cooldown = 1/2},
+        LightPaladin1 = {last = 0, cooldown = 3/4},
+        LightPaladin2= {last = 0, cooldown = 3/4},
+        LightPaladin3 = {last = 0, cooldown = 3/4},
+        LightPaladin4 = {last = 0, cooldown = 3/4},
+    };
+    ['Demon'] = {
+        DemonDPS1 = {last = 0, cooldown = 2.8},
+        DemonDPS2 = {last = 0, cooldown = 2.8},
+        DemonDPS3 = {last = 0, cooldown = 2.8},
+        DemonDPS4 = {last = 0, cooldown = 2.8},
+        DemonDPS5 = {last = 0, cooldown = 2.8},
+        DemonDPS6 = {last = 0, cooldown = 2.8},
+        DemonDPS7 = {last = 0, cooldown = 2.8},
+        DemonDPS8 = {last = 0, cooldown = 2.8},
+        DemonDPS9 = {last = 0, cooldown = 2.8},
+    };
+}
+local Range = {
+    ['Mage'] = {
+        Mage1 = {last = 0, cooldown = .3},
+        Mage2 = {last = 0, cooldown = .3},
+        Mage3 = {last = 0, cooldown = .3},
+        ArcaneBlast = {last = 0, cooldown = 5},
+        ArcaneWave1 = {last = 0, cooldown = 8},
+        ArcaneWave2 = {last = 0, cooldown = 8},
+        ArcaneWave3 = {last = 0, cooldown = 8},
+        ArcaneWave4 = {last = 0, cooldown = 8},
+        ArcaneWave5 = {last = 0, cooldown = 8},
+        ArcaneWave6 = {last = 0, cooldown = 8},
+        ArcaneWave7 = {last = 0, cooldown = 8},
+        ArcaneWave8 = {last = 0, cooldown = 8},
+        ArcaneWave9 = {last = 0, cooldown = 8},
+        ArcaneBlastAOE = {last = 0, cooldown = 15},
+    };
+    ['IcefireMage'] = {
+        IcefireMage1 = {last = 0, cooldown = .3},
+        IcefireMage2 = {last = 0, cooldown = .3},
+        IcefireMage3 = {last = 0, cooldown = .3},
+        IcySpikes1 = {last = 0, cooldown = 6},
+        IcySpikes2 = {last = 0, cooldown = 6},
+        IcySpikes3 = {last = 0, cooldown = 6},
+        IcySpikes4 = {last = 0, cooldown = 6},
+        IcySpikes5 = {last = 0, cooldown = 6},
+        IcefireMageFireball = {last = 0, cooldown = 10},
+        IcefireMageFireballBlast = {last = 0, cooldown = 10},
+        LightningStrike1 = {last = 0, cooldown = 15},
+        LightningStrike2 = {last = 0, cooldown = 15},
+        LightningStrike3 = {last = 0, cooldown = 15},
+        LightningStrike4 = {last = 0, cooldown = 15},
+        LightningStrike5 = {last = 0, cooldown = 15},
+        IcefireMageUltimateFrost = {last = 0, cooldown = 20},
+        IcefireMageUltimateMeteor1 = {last = 0, cooldown = 20},
+        IcefireMageUltimateMeteor2 = {last = 0, cooldown = 20},
+        IcefireMageUltimateMeteor3 = {last = 0, cooldown = 20},
+        IcefireMageUltimateMeteor4 = {last = 0, cooldown = 20},
+    };
+    ['DualWielder'] = {
+        DualWieldUltimateSlam = {last = 0, cooldown = 30},
+        DualWieldUltimateSlam1 = {last = 0, cooldown = 30},
+        DualWieldUltimateSlam2 = {last = 0, cooldown = 30},
+        DualWieldUltimateSlam3 = {last = 0, cooldown = 30},
+        DualWieldUltimateSword1 = {last = 0, cooldown = 30},
+        DualWieldUltimateSword2 = {last = 0, cooldown = 30},
+        DualWieldUltimateSword3 = {last = 0, cooldown = 30},
+        DualWieldUltimateSword4 = {last = 0, cooldown = 30},
+        DualWieldUltimateSword5 = {last = 0, cooldown = 30},
+        DualWieldUltimateSword6 = {last = 0, cooldown = 30},
+        DualWieldUltimateSword7 = {last = 0, cooldown = 30},
+        DualWieldUltimateSword8 = {last = 0, cooldown = 30},
+        DualWieldUltimateSword9 = {last = 0, cooldown = 30},
+        DualWieldUltimateSword10 = {last = 0, cooldown = 30},
+        DualWieldUltimateSword11 = {last = 0, cooldown = 30},
+        DualWieldUltimateSword12 = {last = 0, cooldown = 30},
+        DualWieldUltimateSword13 = {last = 0, cooldown = 30},
+        DualWieldUltimateSword14 = {last = 0, cooldown = 30},
+        DualWieldUltimateSword15 = {last = 0, cooldown = 30},
+        DualWieldUltimateSword16 = {last = 0, cooldown = 30},
+    };
+    ['Guardian'] = {
+        RockSpikes1 = {last = 0, cooldown = 6},
+        RockSpikes2 = {last = 0, cooldown = 6},
+        RockSpikes3 = {last = 0, cooldown = 6},
+        RockSpikes4 = {last = 0, cooldown = 6},
+        RockSpikes5 = {last = 0, cooldown = 6},
+        SlashFury1 = {last = 0, cooldown = 8},
+        SlashFury2 = {last = 0, cooldown = 8},
+        SlashFury3 = {last = 0, cooldown = 8},
+        SlashFury4 = {last = 0, cooldown = 8},
+        SlashFury5 = {last = 0, cooldown = 8},
+        SlashFury6 = {last = 0, cooldown = 8},
+        SlashFury7 = {last = 0, cooldown = 8},
+        SlashFury8 = {last = 0, cooldown = 8},
+        SlashFury9 = {last = 0, cooldown = 8},
+        SlashFury10 = {last = 0, cooldown = 8},
+        SlashFury11 = {last = 0, cooldown = 8},
+        SlashFury12 = {last = 0, cooldown = 8},
+        SlashFury13 = {last = 0, cooldown = 8},
+        SlashFury14 = {last = 0, cooldown = 8},
+        SlashFury15 = {last = 0, cooldown = 8},
+        SlashFury16 = {last = 0, cooldown = 8},
+    };
+    ['Berserker'] = {
+        AggroSlam = {last = 0, cooldown = 5},
+        GigaSpin1= {last = 0, cooldown = 7},
+        GigaSpin2= {last = 0, cooldown = 7},
+        GigaSpin3= {last = 0, cooldown = 7},
+        GigaSpin4= {last = 0, cooldown = 7},
+        GigaSpin5= {last = 0, cooldown = 7},
+        GigaSpin6= {last = 0, cooldown = 7},
+        GigaSpin7= {last = 0, cooldown = 7},
+        GigaSpin8= {last = 0, cooldown = 7},
+    };
+    ['Paladin'] = {
+        LightThrust1 = {last = 0, cooldown = 11},
+        LightThrust2 = {last = 0, cooldown = 11},
+    };
+    ['MageOfLight'] = {
+        MageOfLight = {last = 0, cooldown = 1/4},
+        MageOfLightBlast = {last = 0, cooldown = .3},
+        MageOfLightCharged = {last = 0, cooldown = .2},
+        MageOfLightBlastCharged = {last = 0, cooldown = .1},
+    };
+    ['Demon'] = {
+        ScytheThrowDPS1 = {last = 0, cooldown = 10},
+        ScytheThrowDPS2 = {last = 0, cooldown = 10},
+        ScytheThrowDPS3 = {last = 0, cooldown = 10},
+        DemonSoulAOE1 = {last = 0, cooldown = 15},
+        DemonSoulAOE2 = {last = 0, cooldown = 15},
+        DemonSoulAOE3 = {last = 0, cooldown = 15},
+        DemonSoulAOE4 = {last = 0, cooldown = 15},
+        DemonLifeStealDPS = {last = 0, cooldown = 16},
+        DemonLifeStealAOE = {last = 0, cooldown = 16},
+    };
+    ['Archer'] = {
+        Archer = {last = 0, cooldown = 1/2},
+        PiercingArrow1 = {last = 0, cooldown = 5},
+        PiercingArrow2 = {last = 0, cooldown = 5},
+        PiercingArrow3 = {last = 0, cooldown = 5},
+        PiercingArrow4 = {last = 0, cooldown = 5},
+        PiercingArrow5 = {last = 0, cooldown = 5},
+        SpiritBomb = {last = 0, cooldown = 10},
+        MortarStrike1 = {last = 0, cooldown = 12},
+        MortarStrike2 = {last = 0, cooldown = 12},
+        MortarStrike3 = {last = 0, cooldown = 12},
+        MortarStrike4 = {last = 0, cooldown = 12},
+        MortarStrike5 = {last = 0, cooldown = 12},
+        HeavenlySword = {last = 0, cooldown = 20},
+    };
+    ['Dragoon'] = {
+        DragoonCross1 = {last = 0, cooldown = 5.5},
+        DragoonCross2 = {last = 0, cooldown = 5.5},
+        DragoonCross3 = {last = 0, cooldown = 5.5},
+        DragoonCross4 = {last = 0, cooldown = 5.5},
+        DragoonCross5 = {last = 0, cooldown = 5.5},
+        DragoonCross6 = {last = 0, cooldown = 5.5},
+        DragoonCross7 = {last = 0, cooldown = 5.5},
+        DragoonCross8 = {last = 0, cooldown = 5.5},
+        DragoonCross9 = {last = 0, cooldown = 5.5},
+        DragoonCross10 = {last = 0, cooldown = 5.5},
+        DragoonDash = {last = 0, cooldown = 10},
+        MultiStrikeDragon1 = {last = 0, cooldown = 12},
+        MultiStrikeDragon2 = {last = 0, cooldown = 12},
+        MultiStrikeDragon3 = {last = 0, cooldown = 12},
+        MultiStrikeDragon4 = {last = 0, cooldown = 12},
+        MultiStrikeDragon5 = {last = 0, cooldown = 12},
+        MultiStrikeDragon6 = {last = 0, cooldown = 13},
+        DragoonFall = {last = 0, cooldown = 12},
+        DragoonUltimate = {last = 0, cooldown = 30},
+    };
+    ['Summoner'] = {
+        Summoner1 = {last = 0, cooldown = .01},
+        Summoner2 = {last = 0, cooldown = .01},
+        Summoner3 = {last = 0, cooldown = .01},
+        Summoner4 = {last = 0, cooldown = .01},
+    };
+    ['Warlord'] = {
+        Piledriver1 = {last = 0, cooldown = 3},
+        Piledriver2 = {last = 0, cooldown = 3},
+        Piledriver3 = {last = 0, cooldown = 3},
+        Piledriver4 = {last = 0, cooldown = 3},
+        ChainsOfWar = {last = 0, cooldown = 6},
+        BlockingWarlord = {last = 0, cooldown = 10},
+        WarlordUltimate1 = {last = 0, cooldown = 15},
+        WarlordUltimate2 = {last = 0, cooldown = 15},
+        WarlordUltimate3 = {last = 0, cooldown = 15},
+        WarlordUltimate4 = {last = 0, cooldown = 15},
+        WarlordUltimate5 = {last = 0, cooldown = 15},
+    };
+}
+
+----------------------------Function-----------------------------
+
+local function pressKey(key)
+    VirtualInputManager:SendKeyEvent(true, key, false, game)
+end
+local function releaseKey(key)
+    VirtualInputManager:SendKeyEvent(false, key, false, game)
+end
+
+local function ReadableNumber(Number)
+    local Suffixes = {"K", "M", "B", "T", "Q", "Qu", "S", "Se", "O", "N", "D"}
+    Number = tostring(Number):match("$.*") and tostring(Number):sub(2) or tostring(Number)
+    local i = math.floor(math.log(Number, 1e3))
+    local v = math.pow(10, i * 3)
+    return ("%s%s"):format(("%.1f"):format(Number / v):gsub("%.?0+$", ""), (Suffixes[i] or ""))
+end
+
+local function IsAMelee()
+    local melee_classes = {
+      'Swordmaster',
+      'Defender',
+      'DualWielder',
+      'Berserker',
+      'Guardian',
+      'Paladin',
+      'Dragoon',
+      'Demon',
+      'Warlord',
+    }
+    for _, class in ipairs(melee_classes) do
+      if PlayerClass == class then
+        return true
+      end
+    end
+    return false
+end
+
+local function IsARange()
+    local range_classes = {
+      'Mage',
+      'IcefireMage',
+      'MageOfLight',
+      'Archer',
+      'Summoner',
+    }
+    for _, class in ipairs(range_classes) do
+      if PlayerClass == class then
+        return true
+      end
+    end
+    return false
+  end
+  
+
+local function skillReady(lastSklUse)
+    return os.clock() - lastSklUse > uniCooldown
+end
+
+local function HasOffhand()
+    local offhand_folder = ReplicatedStorage.Profiles[Player.Name].Equip.Offhand
+    return not offhand_folder:IsEmpty()
+end
+
+function IsAlive()
+    local hrp = game.Players.LocalPlayer.Character:FindFirstChild('HumanoidRootPart')
+    return hrp ~= nil
+end
+
+local function noClip(State)
+    if IsAlive() then
+        HRP.CanCollide = State
+    end
+end
+
+local function bvCreate()
+    if not HRP:FindFirstChild('BodyVelocity') then
+        local BodyVelocity = Instance.new'BodyVelocity'
+        BodyVelocity.Velocity = Vector3.new(0, 0, 0)
+        BodyVelocity.MaxForce = Vector3.new(900000, 900000, 900000)
+        BodyVelocity.P = 9000
+        BodyVelocity.Parent = HRP
+    end
+end
+local function bvDelete()
+    for _,v in pairs(HRP:GetChildren()) do
+        if v:IsA('BodyVelocity') then
+            v:Destroy()
+        end
+    end
+end
+
+local function StartRaid()
+    for _,ow in pairs(oID) do
+        if game.PlaceId ~= ow then
+            if Workspace:WaitForChild('MissionObjects'):FindFirstChild('MissionStart') then
+                for _,v in pairs(Workspace.MissionObjects.MissionStart:GetDescendants()) do
+                    if v:IsA('TouchTransmitter') and v.Parent then
+                        v.Parent.CFrame = HRP.CFrame
+                    end
+                end
+            end
+        end
+    end
+end
+
+local function TouchTrans()
+    if IsAlive() then
+        for _,v in pairs(Character:GetChildren()) do
+            if v:IsA('BasePart') and v.Name == ('Collider') then
+                v.Touched:Connect(function(part)
+                    if part:IsA('BasePart') and part.Transparency ~= 1 then
+                        if part.Parent ~= Character then
+                            local newtrans = .3
+                            part.Transparency = newtrans
+                            local newcolor = Color3.fromRGB(140,140,140)
+                            part.Color = newcolor
+                        end
+                    end
+                end)
+            end
+        end
+    end
+end
+
+local IsExtraDrop = ReplicatedStorage.Shared.VIP.IsExtraDrop:InvokeServer()
+
+local function click(Button)
+    VirtualInputManager:SendMouseButtonEvent(Button.AbsolutePosition.X+Button.AbsoluteSize.X/2,Button.AbsolutePosition.Y+50,0,true,Button,1)
+    VirtualInputManager:SendMouseButtonEvent(Button.AbsolutePosition.X+Button.AbsoluteSize.X/2,Button.AbsolutePosition.Y+50,0,false,Button,1)
+end
+
+local function SwitchToPerk(Target)
+    local OffhandWeapon = ReplicatedStorage.Profiles[Player.Name].Equip.Offhand:FindFirstChildOfClass("Folder")
+    local HealthProperties = Target.HealthProperties
+    local MaxHealth = HealthProperties.MaxHealth
+    local EliteCheck = require(ReplicatedStorage.Shared.Mobs).IsElite
+    local MobMod = require(ReplicatedStorage.Shared.Mobs.Mobs[Target.Name])
+    local Perks2Use = ''
+    if MobMod.BossTag ~= false then
+        Perks2Use = 'TestTier5'
+    elseif MobMod.BossTag == false then
+        if EliteCheck(Target) then
+            Perks2Use = 'EliteBoss'
+        else
+            Perks2Use = 'MobBoss'
+        end
+    end
+    if math.floor(HealthProperties.Health.Value / MaxHealth.Value * 100) >= 75 then      
+        if OffhandWeapon and OffhandWeapon:FindFirstChild("Perk3") and OffhandWeapon:FindFirstChild("Perk3").Value == 'OpeningStrike' then
+            ReplicatedStorage.Shared.Settings.OffhandPerksActive:FireServer(true)
+            repeat wait() until math.floor(HealthProperties.Health / MaxHealth * 100) < 75
+        else
+            ReplicatedStorage.Shared.Settings.OffhandPerksActive:FireServer(false)
+        end
+    end
+    if OffhandWeapon and OffhandWeapon:FindFirstChild("Perk3") and OffhandWeapon:FindFirstChild("Perk3").Value == Perks2Use then
+        ReplicatedStorage.Shared.Settings.OffhandPerksActive:FireServer(true)
+    else
+        ReplicatedStorage.Shared.Settings.OffhandPerksActive:FireServer(false)
+    end
+end
+
+local TeleportSpeed = 100
+local NextFrame = RunService.Heartbeat
+local function Teleport(Target)
+    if (typeof(Target) == "Instance" and Target:IsA("BasePart")) then Target = Target.Position end
+    if (typeof(Target) == "CFrame") then Target = Target.p end
+    if (not HRP) then return end
+    local StartingPosition = HRP.Position
+    local PositionDelta = (Target - StartingPosition)
+    local StartTime = tick()
+    local TotalDuration = (StartingPosition - Target).magnitude / TeleportSpeed
+    repeat NextFrame:Wait()
+        local Delta = tick() - StartTime
+        local Progress = math.min(Delta / TotalDuration, 1)
+        local MappedPosition = StartingPosition + (PositionDelta * Progress)
+        HRP.Velocity = Vector3.new()
+        HRP.CFrame = CFrame.new(MappedPosition)
+    until (HRP.Position - Target).magnitude <= TeleportSpeed / 2
+    HRP.Anchored = false
+    local xOffset, yOffset, zOffset = 0, 0, 12
+    HRP.CFrame = CFrame.new(Target) + Vector3.new(xOffset, yOffset, zOffset)
+end
+
+local function NetworkOffset(GlobalCD)
+    GlobalCD = 0
+    task.spawn(function()
+        while Toggles.KillAura do
+            local Ping = math.floor(game:GetService('Stats').Network.ServerStatsItem['Data Ping']:GetValue())
+            if Ping > 150 and Toggles.AiPing then
+                GlobalCD = Ping / 1200
+            else
+                GlobalCD = 0
+            end
+            task.wait()
+        end
+    end)
+    return GlobalCD
+end
+
+----------------------------TargetLocator-----------------------------
+
+local function TargetLocator(Target)
+    local Distance = math.huge
+    for _,v in pairs(Workspace.Mobs:GetChildren()) do
+        if not table.find(mobWL, v.Name) then
+            if v:FindFirstChild('Collider') and v:FindFirstChild('HealthProperties') and not v:FindFirstChild('NoHealthbar') then
+                local Delta = math.floor((HRP.Position - v.WorldPivot.Position).Magnitude)
+                if Delta <= Distance and v.HealthProperties.Health.Value > 0 then
+                    Distance = Delta
+                    Target = v.Collider
+                end
+            end
+        end
+    end
+    if game.PlaceId == dID[1] then
+        if Workspace.Mobs:FindFirstChild('BOSSTreeEnt') and Workspace.Mobs.BOSSTreeEnt.HealthProperties.Health.Value/Workspace.Mobs.BOSSTreeEnt.HealthProperties.MaxHealth.Value*100<=50 then
+            for i = 1, 3 do
+                local Pillar = Workspace:WaitForChild('Pillar' .. i)
+                if Pillar:FindFirstChild('HealthProperties') and Pillar.HealthProperties.Health.Value ~= 0 then
+                    Target = Pillar.Base
+                end
+            end
+        end
+    end
+    if game.PlaceId == dID[3.2] then
+        if Player.PlayerGui.MissionObjective.MissionObjective.Label.Text == 'Destroy the Ice Barricade!' then
+            if Workspace.MissionObjects.IceBarricade:FindFirstChild('HealthProperties') and Workspace.MissionObjects.IceBarricade.HealthProperties.Health.Value ~= 0 then
+                Target = Workspace.MissionObjects.IceBarricade.Part
+            end
+        end
+    end
+    if game.PlaceId == dID[3] then
+        if game.PlaceId == dID[3] then
+            for i = 1, 3 do
+                local Spike = Workspace.MissionObjects.SpikeCheckpoints:WaitForChild('Blocker' .. i)
+                if Spike:FindFirstChild('HealthProperties') and Spike.HealthProperties.Health.Value ~= 0 then
+                    Target = Spike.Part
+                end
+            end
+        end
+        if Workspace.Mobs:FindFirstChild('BOSSWinterfallIceDragon') and Workspace.Mobs.BOSSWinterfallIceDragon.Collider.Position.y > 300 then
+            Target = nil
+        end
+    end
+    if game.PlaceId == dID[4.1] then
+        if Workspace.MissionObjects.TowerLegs:FindFirstChild('Model') and Workspace.MissionObjects.TowerLegs.Model:FindFirstChild('HealthProperties') then
+            Target = Workspace.MissionObjects.TowerLegs.Model.hitbox
+        end
+        if Workspace.Mobs:FindFirstChild('BOSSHogRider') and Workspace.Mobs.BOSSHogRider.Collider.Position.y < 380 then
+            Target = Workspace.Mobs.BOSSHogRider.Collider
+        end
+    end
+    if game.PlaceId == dID[4] then
+        if Workspace.Mobs:FindFirstChild('BOSSAnubis') then
+            if not Workspace.Mobs.BOSSAnubis.MobProperties.Busy:FindFirstChild('Shield') then
+                Target = Workspace.Mobs.BOSSAnubis.Collider
+            end
+        end
+    end
+    if game.PlaceId == dID[5.1] and Workspace.Mobs:FindFirstChild('CorruptedGreaterTree') then
+        if not Workspace:FindFirstChild('GreaterTreeShield') then
+            Target = Workspace.Mobs.CorruptedGreaterTree.Collider
+        end
+    end
+    if game.PlaceId == dID[6.1] then
+        if Workspace.Mobs:FindFirstChild('DavyJones') and not Target then
+            Target = Workspace.Mobs.DavyJones.Collider
+        end
+        if Workspace:FindFirstChild('TriggerBarrel') then
+            Target = Workspace.TriggerBarrel.Collision
+        end
+    end
+    if game.PlaceId == tID[2] then
+        if Workspace.Mobs:FindFirstChild('BOSSKrakenMain') then
+            for i = 1, 8 do
+                local KrakenArm = workspace.Mobs:FindFirstChild('BOSSKrakenArm3-Arm#' .. i)
+                if KrakenArm and KrakenArm.HealthProperties.Health.Value ~= 0 then
+                    Target = KrakenArm.Subcollider.SubPrimaryPart
+                end
+            end
+        end
+    end
+    return Target
+end
+
+local function MobLocator(Mob)
+    local Distance = math.huge
+    for _,v in pairs(Workspace.Mobs:GetChildren()) do
+        if not table.find(mobWL, v.Name) then
+            if v:FindFirstChild('Collider') and v:FindFirstChild('HealthProperties') and not v:FindFirstChild('NoHealthbar') then
+                local Delta = math.floor((HRP.Position - v.WorldPivot.Position).Magnitude)
+                if Delta <= Distance and v.HealthProperties.Health.Value > 0 then
+                    Distance = Delta
+                    Mob = v
+                end
+            end
+        end
+    end
+    return Mob
+end
+
+local function ExplosionLocator(Victim)
+    local Distance = math.huge
+    if Workspace.Mobs:FindFirstChild('SummonerSummonWeak') then
+        for _,v in pairs(Workspace.Mobs:GetChildren()) do
+            if not table.find(mobWL, v.Name) then
+                if v:FindFirstChild('Collider') and v:FindFirstChild('HealthProperties') then
+                    local Delta = (Workspace.Mobs.SummonerSummonWeak.WorldPivot.Position - v.WorldPivot.Position).Magnitude
+                    if Delta <= Distance and v.HealthProperties.Health.Value>8000 then
+                        Distance = Delta
+                        Victim = v.Collider
+                    end
+                end
+            end
+        end
+    end
+    return Victim
+end
+
+----------------------------AtkRange&CDs-----------------------------
+
+if PlayerClass == 'Mage' then
+    AttackRange = 60; uniCooldown = uniCooldown + NetworkOffset()
+elseif PlayerClass == 'Swordmaster' then
+    AttackRange = 15; uniCooldown = uniCooldown + NetworkOffset()
+elseif PlayerClass == 'Defender' then
+    AttackRange = 15; uniCooldown = uniCooldown + NetworkOffset()
+elseif PlayerClass == 'DualWielder' then
+    AttackRange = 15; timer = 9/64 + NetworkOffset()
+elseif PlayerClass == 'Berserker' then
+    AttackRange = 15; uniCooldown = uniCooldown + NetworkOffset()
+elseif PlayerClass == 'Guardian' then
+    AttackRange = 15; timer = 1/3 + NetworkOffset()
+elseif PlayerClass == 'Paladin' then
+    AttackRange = 20; uniCooldown = uniCooldown + NetworkOffset()
+elseif PlayerClass == 'IcefireMage' then
+    AttackRange = 95; uniCooldown = uniCooldown + NetworkOffset()
+elseif PlayerClass == 'MageOfLight' then
+    AttackRange = 95; uniCooldown = uniCooldown + NetworkOffset()
+elseif PlayerClass == 'Dragoon' then
+    AttackRange = 15; timer = 9/64 + NetworkOffset()
+elseif PlayerClass == 'Demon' then
+    AttackRange = 15; timer = .5 + NetworkOffset()
+elseif PlayerClass == 'Archer' then
+    AttackRange = 80; uniCooldown = uniCooldown + NetworkOffset()
+elseif PlayerClass == 'Summoner' then
+    AttackRange = 80; uniCooldown = 1/2 + NetworkOffset()
+elseif PlayerClass == 'Warlord' then
+    AttackRange = 15; timer = 5/64 + NetworkOffset()
+end
+
+----------------------------KillAuras-----------------------------
+
+local function RangeKA()
+    task.spawn(function()
+      while Toggles.KillAura and IsAlive() do
+        local Target = TargetLocator()
+        if Target and Target.Parent:FindFirstChild("HealthProperties") and Target.Parent.HealthProperties.Health.Value < 1 then break end
+        if Target and (HRP.Position - Target.Position).Magnitude < AttackRange then
+          for Ability, v in pairs(Range[PlayerClass]) do
+            if os.clock() - v.last > v.cooldown and skillReady(lastSklUse) then
+              CombatMod:AttackWithSkill(Ability, Target.Position)
+              v.last = os.clock()
+              lastSklUse = os.clock()
+            end
+          end
+        end
+        task.wait()
+      end
+    end)
+end
+  
+local function MeleeKA()
+    task.spawn(function()
+      while Toggles.KillAura and IsAlive() do
+        local Target = TargetLocator()
+        if Target and Target.Parent:FindFirstChild("HealthProperties") and Target.Parent.HealthProperties.Health.Value < 1 then break end
+        if Target and (HRP.Position - Target.Position).Magnitude < AttackRange then
+          for Ability, v in pairs(Melee[PlayerClass]) do
+            if os.clock() - v.last > v.cooldown and skillReady(lastSklUse) then
+              CombatMod:AttackWithSkill(Ability, HRP.Position, HRP.CFrame.lookVector)
+              v.last = os.clock()
+              lastSklUse = os.clock()
+              break
+            end
+          end
+        end
+        task.wait()
+      end
+    end)
+end
+  
+local function HiKA()
+    task.spawn(function()
+      local DeBounce = os.clock()
+      while Toggles.KillAura and IsAlive() do
+        local Target = TargetLocator()
+        if Target and Target.Parent:FindFirstChild("HealthProperties") and Target.Parent.HealthProperties.Health.Value < 1/6 then break end
+        if Target and (HRP.Position - Target.Position).Magnitude < AttackRange and os.clock() - DeBounce >= timer then
+          DeBounce = os.clock()
+          iKey = iKey + 1
+          CombatMod:AttackWithSkill(pSkl[iKey], HRP.Position, HRP.CFrame.lookVector)
+          RunService.RenderStepped:Wait()
+          if iKey >= #pSkl then iKey = 0 end
+        end
+        RunService.RenderStepped:Wait()
+      end
+    end)
+end
+  
+----------------------------DetailedKillAura-----------------------------
+
+local function DWRythm()
+    task.spawn(function()
+        local DeBounce = os.clock()
+        while Toggles.KillAura and IsAlive() do
+            local Target = TargetLocator()
+            if Target and Target.Parent:FindFirstChild'HealthProperties' and Target.Parent.HealthProperties.Health.Value < 1 then break end
+            if Target and (HRP.Position - Target.Position).Magnitude < 500 and os.clock() - DeBounce >= 12 then
+                DeBounce = os.clock()
+                ReplicatedStorage.Shared.Combat.Skillsets.DualWielder.AttackBuff:FireServer()
+                ReplicatedStorage.Shared.Combat.Skillsets.DualWielder.UpdateSpeed:FireServer(0)
+            end
+            task.wait(12)
+        end
+    end)
+end
+
+local function Guardian()
+    task.spawn(function()
+        local Skill = HotbarMod.GetHotbarSkillTile('', 'Ultimate')
+        while Toggles.KillAura and IsAlive() do
+            if Skill.cooling and not Toggles.KillAura then break end
+            local Target = MobLocator()
+            if Target and IsAlive() then
+            if Target and Target:FindFirstChild'HealthProperties' and Target.HealthProperties.Health.Value < 1 then break end
+                VirtualInputManager:SendKeyEvent(true, 'X', false, game) wait(1/2)
+                VirtualInputManager:SendKeyEvent(false, 'X', false, game)
+            end
+            task.wait(30)
+        end
+    end)
+end
+
+local function Demon()
+     task.spawn(function()
+        DeBounce = os.clock()
+        local Skill = HotbarMod.GetHotbarSkillTile('', 'Ultimate')
+        while Toggles.KillAura and IsAlive() do
+            if Skill.cooldownTimer > 20 and not Toggles.KillAura then break end
+            if os.clock() - DeBounce >= 2 then DeBounce = os.clock()
+                ReplicatedStorage.Shared.Combat.Skillsets.Demon.Demonic:FireServer()
+                ReplicatedStorage.Shared.Combat.Skillsets.Demon.Demonic:FireServer()
+                ReplicatedStorage.Shared.Combat.Skillsets.Demon.Demonic:FireServer()
+                ReplicatedStorage.Shared.Combat.Skillsets.Demon.Demonic:FireServer()
+                ReplicatedStorage.Shared.Combat.Skillsets.Demon.Demonic:FireServer()
+                ReplicatedStorage.Shared.Combat.Skillsets.Demon.Demonic:FireServer() wait()
+            if Skill.cooldownTimer > 1 and not Toggles.KillAura then break end
+                ReplicatedStorage.Shared.Combat.Skillsets.Demon.Ultimate:FireServer()
+            end
+            task.wait(30)
+        end
+    end)
+end
+
+local function Archer()
+    yAxis, zAxis, Duration = 30, 26, 6
+    task.spawn(function()
+        while Toggles.KillAura and IsAlive() do
+            local Target = MobLocator()
+            local coolDown = ActionsMod:IsOnCooldown('Ultimate')
+            if Target and (HRP.Position - Target.Collider.Position).Magnitude < 80 and Workspace.Characters[Player.Name].Properties.BackSwordCount.Value == 6 then
+            if Target and Target.HealthProperties.Health.Value < 1/6 or coolDown then break end
+                DeBounce = os.clock()
+                yAxis, zAxis, Duration = 3/64, 16, 66 task.wait(1)
+                ReplicatedStorage.Shared.Combat.Skillsets.Archer.Ultimate:FireServer(Target.Collider.Position)
+                task.wait(1) yAxis, zAxis, Duration = 26, 26, 6
+            end
+            task.wait(30)
+        end
+    end)
+end
+
+local function Summoner()
+    task.spawn(function()
+        local DeBounce = os.clock()
+        while Toggles.KillAura and IsAlive() do
+            local Target = MobLocator()
+            if Target and Target:FindFirstChild'HealthProperties' and Target.HealthProperties.Health.Value < 1/6 then break end
+               if Target and Workspace.Characters[Player.Name].Properties.SummonCount.Value == 5 and os.clock() - DeBounce >= 8 then
+                DeBounce = os.clock()
+                SummonerMod:Summon(Target.Collider.Position)
+            end
+            task.wait(8)
+        end
+    end)
+    task.spawn(function()
+        local DeBounce = os.clock()
+        while Toggles.KillAura and IsAlive() do
+            local Target = TargetLocator()
+            if Target and Target.Parent:FindFirstChild'HealthProperties' and Target.Parent.HealthProperties.Health.Value < 1/6 then break end
+            if Target and (HRP.Position - Target.Position).Magnitude < 50 and os.clock() - DeBounce >= 10 then
+                DeBounce = os.clock()
+                ReplicatedStorage.Shared.Combat.Skillsets.Summoner.SoulHarvest:FireServer(Target.Position)
+            end
+            task.wait(10)
+        end
+    end)
+    task.spawn(function()
+        local DeBounce = os.clock()
+        while Toggles.KillAura and IsAlive() do
+            local Target = MobLocator()
+            if Target and os.clock() - DeBounce >= 30 then
+            if Target and Target:FindFirstChild'HealthProperties' and Target.HealthProperties.Health.Value < 1/6 then break end
+                DeBounce = os.clock()
+                SummonerMod:Ultimate(Target.Collider.Position)
+            end
+            task.wait(30)
+        end
+    end)
+    task.spawn(function()
+        local DeBounce = os.clock()
+        while Toggles.KillAura and IsAlive() do
+            local Target = ExplosionLocator()
+            if Target and Workspace.Mobs:FindFirstChild('SummonerSummonWeak') then
+            if not IsAlive() then break end
+                local Delta = (Workspace.Mobs.SummonerSummonWeak.Collider.Position - Target.Position).Magnitude
+                if Delta < 8 and HRP and os.clock() - DeBounce >= 2 then
+                    DeBounce = os.clock()
+                    SummonerMod:ExplodeSummons()
+                end
+            end
+            task.wait(2)
+        end
+    end)
+end
+
+local function Warlord()
+    task.spawn(function()
+        local DeBounce = os.clock()
+        while Toggles.KillAura and IsAlive() do
+            if not IsAlive() then break end
+            if os.clock() - DeBounce >= 1/3 then
+                DeBounce = os.clock()
+                ReplicatedStorage.Shared.Combat.Skillsets.Warlord.Block:FireServer()
+            end
+            task.wait(1/3)
+        end
+    end)
+end
+
+----------------------------FleetheDamage-----------------------------
+
+local connection = nil
+connection = Workspace.ChildAdded:Connect(function(Radial)
+    if Radial.Name == 'RadialIndicator' then
+        local Mob = MobLocator()
+        if Mob and not MobsMod:GetBossTag(Mob) and Workspace.RadialIndicator.Inner.Size.y > 20 then
+            Circle = 1
+        end
+    end
+end)
+Workspace.ChildRemoved:Connect(function(Radial)
+    if Radial.Name == 'RadialIndicator' then
+        if connection then
+            connection:Disconnect()
+        end
+        Circle = 360
+    end
+end)
+
+
+----------------------------UI Library-----------------------------
+
+Library = loadstring(game:HttpGet("https://bitbucket.org/cat__/turtle-ui/raw/main/Module%20v2"), "Turtle UI")()
+
+local WinA = Library:Window({   
+    Title = game:GetService('MarketplaceService'):GetProductInfo(game.PlaceId).Name,
+    TextSize = 18,
+    Font = Enum.Font.LuckiestGuy,
+    TextColor = Color3.fromRGB(222, 248, 107),
+    FrameColor = Color3.fromRGB(63, 72, 80),
+    BackgroundColor = Color3.fromRGB(35, 35, 35),
+})
+
+local WinB = Library:Window({
+    Title = "Start: "..os.date("%I:%M %p"),
+    TextSize = 18,
+    Font = Enum.Font.LuckiestGuy,
+    TextColor = Color3.fromRGB(222, 248, 107),
+    FrameColor = Color3.fromRGB(63, 72, 80),
+    BackgroundColor = Color3.fromRGB(35, 35, 35),
+})
+
+local WinC = Library:Window({
+    Title = (SvrData.country.." | "..SvrData.city),
+    TextSize = 20,
+    Font = Enum.Font.LuckiestGuy,
+    TextColor = Color3.fromRGB(222, 248, 107),
+    FrameColor = Color3.fromRGB(63, 72, 80),
+    BackgroundColor = Color3.fromRGB(35, 35, 35),
+})
+
+local WinD = Library:Window({
+    Title = "Gold: "..ReadableNumber(game.ReplicatedStorage.Profiles[Player.Name].Currency.Gold.Value),
+    TextSize = 18,
+    Font = Enum.Font.LuckiestGuy,
+    TextColor = Color3.fromRGB(222, 248, 107),
+    FrameColor = Color3.fromRGB(63, 72, 80),
+    BackgroundColor = Color3.fromRGB(35, 35, 35),
+})
+
+local WinE = Library:Window({
+    Title = "Running",
+    TextSize = 20,
+    Font = Enum.Font.LuckiestGuy,
+    TextColor = Color3.fromRGB(222, 248, 107),
+    FrameColor = Color3.fromRGB(63, 72, 80),
+    BackgroundColor = Color3.fromRGB(35, 35, 35),
+})
+
+local WinF = Library:Window({
+    Title = "Ping: "..math.floor(game:GetService('Stats').Network.ServerStatsItem['Data Ping']:GetValue()),
+    TextSize = 18,
+    Font = Enum.Font.LuckiestGuy,
+    TextColor = Color3.fromRGB(222, 248, 107),
+    FrameColor = Color3.fromRGB(63, 72, 80),
+    BackgroundColor = Color3.fromRGB(35, 35, 35),
+})
+
+local WinG = Library:Window({
+    Title = "Misc",
+    TextSize = 18,
+    Font = Enum.Font.LuckiestGuy,
+    TextColor = Color3.fromRGB(222, 248, 107),
+    FrameColor = Color3.fromRGB(63, 72, 80),
+    BackgroundColor = Color3.fromRGB(35, 35, 35),
+})
+
+local KillAura = WinA:Toggle({
+    Text = "KillAura",
+    TextSize = 22,
+    TextColor = Color3.fromRGB(255, 187, 109),
+    Font = Enum.Font.FredokaOne,
+    Disable = true,
+    Enabled = Toggles.KillAura,
+    Callback = function(State)
+    task.spawn(function()
+        Toggles.KillAura = State
+        if Toggles.KillAura then
+            SaveData('WZ_Toggles', Toggles)
+            if PlayerClass == 'Guardian' then
+                Guardian()
+            elseif PlayerClass == 'Demon' then
+                Demon()
+            elseif PlayerClass == 'Archer' then
+                Archer()
+            elseif PlayerClass == 'Summoner' then
+                Summoner()
+            elseif PlayerClass == 'Warlord' then
+                Warlord()
+            end
+            for craft in pairs(Range) do
+                if craft == PlayerClass then
+                    RangeKA()
+                    DWRythm()
+                end
+            end
+            for craft in pairs(Melee) do
+                if craft == PlayerClass then
+                    MeleeKA()
+                    DWRythm()
+                end
+            end
+            for craft in pairs(PrimarySkill) do
+                if craft == PlayerClass then
+                    HiKA()
+                end
+            end
+        end
+    end)
+end})
+
+local PetSkill = WinA:Toggle({
+    Text = "PetSkill",
+    TextSize = 22,
+    TextColor = Color3.fromRGB(255, 187, 109),
+    Font = Enum.Font.FredokaOne,
+    Disable = true,
+    Enabled = Toggles.PetSkill,
+    Callback = function(State)
+    task.spawn(function()
+        Toggles.PetSkill = State
+        SaveData('WZ_Toggles', Toggles)
+        while Toggles.PetSkill do
+            pressKey(Enum.KeyCode.One)
+            wait()
+            releaseKey(Enum.KeyCode.One)
+            wait(15)
+        end
+    end)
+end})
+
+
+----------------------------HP<1/2Protection-----------------------------
+
+local HPHalf = WinE:Toggle({
+    Text = "HP-Half Fly",
+    TextSize = 22,
+    TextColor = Color3.fromRGB(255, 187, 109),
+    Font = Enum.Font.FredokaOne,
+    Enabled = Toggles.HPHalf,
+    Callback = function(State)
+    Toggles.HPHalf = State
+    task.spawn(function()
+        SaveData('WZ_Toggles', Toggles)
+        for _,v in pairs(oID) do
+            if game.PlaceId ~= v and Toggles.HPHalf then
+                Player.Character.HealthProperties.Health:GetPropertyChangedSignal('Value'):Connect(function()
+                    pcall(function()
+                    if IsAlive() and Player.Character.HealthProperties.Health.Value/Player.Character.HealthProperties.MaxHealth.Value*100<50 then
+                        yAxis, zAxis, ts, Duration = 50, 40, 1, 3
+                        repeat wait(1)
+                        until Player.Character.HealthProperties.Health.Value/Player.Character.HealthProperties.MaxHealth.Value*100>90
+                        if IsARange() then
+                            yAxis, zAxis, Duration = 36, 30, 6
+                        elseif IsAMelee() then
+                            yAxis, zAxis, Duration = .1, 14, 5
+                        end
+                    end
+                    if Toggles.HPHalf == false then
+                        Player.Character.HealthProperties.Health:GetPropertyChangedSignal('Value'):Disconnect()
+                    end
+                    end)
+                end)
+            end
+        end
+    end)
+end})
+
+
+local AutoFarm = WinA:Toggle({
+    Text = "AutoFarm",
+    TextSize = 22,
+    TextColor = Color3.fromRGB(255, 187, 109),
+    Font = Enum.Font.FredokaOne,
+    Disable = true,
+    Enabled = Toggles.AutoFarm,
+    Callback = function(State)
+    Toggles.AutoFarm = State
+    task.spawn(function()
+        SaveData('WZ_Toggles', Toggles)
+        if IsARange() then
+            yAxis, zAxis, Duration = 36, 30, 6
+        elseif IsAMelee() then
+            yAxis, zAxis, Duration = .1, 14, 5
+        end
+        if Toggles.AutoFarm then
+            bvCreate(); TouchTrans(); noClip(false); StartRaid()
+        end
+        if not Toggles.AutoFarm then
+            noClip(true); bvDelete()
+        end
+    end)
+    task.spawn(function()
+        local Tween
+        local TweeningInfo = TweenInfo.new(ts, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out)
+        while Toggles.AutoFarm do
+            local Target = TargetLocator()
+            if Target and Target.Parent:FindFirstChild('HealthProperties') and Target.Parent.HealthProperties.Health.Value < 1/6 then break end
+            if Target then
+                local Degree = Circle * (tick() % Duration)/Duration
+                Tween = TweenService:Create(HRP, TweeningInfo, {CFrame = CFrame.new(Target.Position) * CFrame.Angles(0, math.rad(Degree), 0) * CFrame.new(0, yAxis, zAxis)})
+                Tween:Play()
+            end
+            RunService.Heartbeat:Wait()
+        end
+        if Tween and Tween.PlaybackState == Enum.PlaybackState.Playing then
+            Tween:Cancel()
+        end
+        if not Toggles.AutoFarm then
+            bvDelete()
+        end
+    end)
+end})
+
+local GetDrops = WinA:Toggle({
+    Text = "GetDrops",
+    TextSize = 22,
+    TextColor = Color3.fromRGB(255, 187, 109),
+    Font = Enum.Font.FredokaOne,
+    Enabled = Toggles.GetDrop,
+    Callback = function(State)
+    Toggles.GetDrop = State
+    task.spawn(function()
+        SaveData('WZ_Toggles', Toggles)
+        local item_drops = getupvalue(DropsMod.Start, 4)
+        while Toggles.GetDrop do
+            if not Toggles.GetDrop then break end
+            for i, v in pairs(item_drops) do
+                v.model:Destroy()
+                v.followPart:Destroy()
+                ReplicatedStorage.Shared.Drops.CoinEvent:FireServer(v.id)
+                table.remove(item_drops, i)
+            end
+            task.wait(1/3)
+        end
+    end)
+end})
+
+local Levitating = WinA:Toggle({
+    Text = "Levitating",
+    TextSize = 22,
+    TextColor = Color3.fromRGB(255, 187, 109),
+    Font = Enum.Font.FredokaOne,
+    Disable = true,
+    Enabled = Levitating,
+    Callback = function(State)
+    Levitating = State
+    local function ForEach(t, f)
+        for Index, Value in pairs(t) do
+            f(Value, Index)
+        end
+    end
+    local function Create(ClassName)
+        local Object = Instance.new(ClassName)
+        return function(Properties)
+            ForEach(Properties, function(Value, Property)
+                Object[Property] = Value
+            end)
+            return Object
+        end
+    end
+    do
+        local currentPart = nil
+        while Levitating do
+            if not currentPart then
+                currentPart = Create 'Part' {
+                    Parent = workspace.CurrentCamera;
+                    Name = 'Part';
+                    Transparency = 0.95;
+                    Size = Vector3.new(3, .1, 3);
+                    Anchored = true;
+                }
+            end
+            if Character then
+                currentPart.CFrame = HRP.CFrame - Vector3.new(0, 3, 0)
+            end
+            task.wait()
+        end
+    end
+end})
+
+local InfiniteJump = WinA:Toggle({
+    Text = "InfiniteJump",
+    TextSize = 22,
+    TextColor = Color3.fromRGB(255, 187, 109),
+    Font = Enum.Font.FredokaOne,
+    Enabled = Toggles.InfJump,
+    Callback = function(State)
+    Toggles.InfJump = State
+    task.spawn(function()
+        SaveData('WZ_Toggles', Toggles)
+        local function InfJump(Object, Callback)
+            if Object ~= nil then
+                Callback(Object)
+            end
+        end
+        UserInputService.InputBegan:connect(function(UserInput)
+            if Toggles.InfJump and UserInput.UserInputType == Enum.UserInputType.Keyboard and UserInput.KeyCode == Enum.KeyCode.Space then
+                InfJump(Humanoid, function(Player)
+                    if Player:GetState() == Enum.HumanoidStateType.Jumping or Player:GetState() == Enum.HumanoidStateType.Freefall then
+                        InfJump(HRP, function(Object)
+                            Object.Velocity = Vector3.new(0,80, 0)
+                        end)
+                    end
+                end)
+            end
+        end)
+    end)
+end})
+
+local NoClip = WinB:Toggle({
+    Text = "No-Clip",
+    TextSize = 22,
+    TextColor = Color3.fromRGB(255, 187, 109),
+    Font = Enum.Font.FredokaOne,
+    Enabled = Toggles.NoClip,
+    Callback = function(State)
+    Toggles.NoClip = State
+    task.spawn(function()
+        SaveData('WZ_Toggles', Toggles)
+        noClip(true)
+        if Toggles.NoClip then
+            noClip(false)
+        end
+    end)
+end})
+
+local HeadLamp = WinB:Toggle({
+    Text = "HeadLamp",
+    TextSize = 22,
+    TextColor = Color3.fromRGB(255, 187, 109),
+    Font = Enum.Font.FredokaOne,
+    Enabled = HeadLamp,
+    Callback = function(State)
+    HeadLamp = State
+    if HeadLamp then
+        local Lighting
+        local LSetting = Instance.new('PointLight', Character.Head)
+        LSetting.Brightness = .8
+        LSetting.Range = 180
+        Lighting.Changed:connect(function()
+        Lighting.Brightness = 1
+        Lighting.ClockTime = 12
+        Lighting.FogEnd = 1000000
+        Lighting.GlobalShadows = true
+        Lighting.Ambient = Color3.new(1, 1, 1)
+        Lighting.ColorShift_Top = Color3.new(1, 1, 1)
+        Lighting.ColorShift_Bottom = Color3.new(1, 1, 1)
+        end)
+    else
+        Character.Head.PointLight:Destroy()
+    end
+end})
+
+local ReduceLag = WinB:Toggle({
+    Text = "ReduceLag",
+    TextSize = 22,
+    TextColor = Color3.fromRGB(255, 187, 109),
+    Font = Enum.Font.FredokaOne,
+    Enabled = Toggles.ReduceLag,
+    Callback = function(State)
+    Toggles.ReduceLag = State
+    task.spawn(function()
+        SaveData('WZ_Toggles', Toggles)
+        for _, v in pairs(Workspace:GetDescendants()) do
+            if v:IsA'BasePart' and not v.Parent:FindFirstChild'Humanoid' then
+                v.Material = Enum.Material.SmoothPlastic
+                if v:IsA'Texture' then
+                    task.defer(v.Destroy, v)
+                end
+            end
+        end
+        Workspace.DescendantAdded:Connect(function(tex)
+            if tex:IsA'BasePart'and not tex.Parent:FindFirstChild'Humanoid'then
+                tex.Material=Enum.Material.SmoothPlastic
+                if tex:IsA'Texture'then
+                    task.defer(tex.Destroy,tex)
+                end
+            end
+        end)
+        Workspace.ChildAdded:Connect(function(dn)
+            if dn.Name == 'DamageNumber' then
+                task.defer(dn.Destroy,dn)
+            end
+        end)
+    end)
+end})
+
+local DelEggs = WinB:Toggle({
+    Text = "DeleteEggs",
+    TextSize = 22,
+    TextColor = Color3.fromRGB(255, 187, 109),
+    Font = Enum.Font.FredokaOne,
+    Enabled = Toggles.DelEgg,
+    Callback = function(State)
+    Toggles.DelEgg = State
+    task.spawn(function()
+        SaveData('WZ_Toggles', Toggles)
+        local BackPack = ReplicatedStorage.Profiles[Player.Name].Inventory.Items
+        BackPack.DescendantAdded:Connect(function()
+            for _,v in pairs(BackPack:GetChildren()) do
+                if string.find(v.Name, "Egg") then
+                    task.defer(v.Destroy, v)
+                end
+            end
+        end)
+        BackPack.DescendantAdded:Connect(function(egg)
+            if table.find(eggID, egg.Name) then
+              task.delay(2, function()
+                egg:Destroy()
+              end)
+            end
+          end)
+        Player.CharacterAdded:Connect(function()
+            for _,v in pairs(BackPack:GetChildren()) do
+                if string.find(v.Name, "Egg") then
+                    v:Destroy()
+                end
+            end
+        end)
+    end)
+end})
+
+local skipCS = WinB:Toggle({
+    Text = "NoCutScene",
+    TextSize = 22,
+    TextColor = Color3.fromRGB(255, 187, 109),
+    Font = Enum.Font.FredokaOne,
+    Enabled = Toggles.NoCutScene,
+    Callback = function(State)
+    Toggles.NoCutScene = State
+    task.spawn(function()
+        SaveData('WZ_Toggles', Toggles)
+        local CutsceneUI = Player.PlayerGui.CutsceneUI
+        CutsceneUI:GetPropertyChangedSignal('Enabled'):Connect(function()
+            if CutsceneUI.Enabled then
+                CameraMod:SkipCutscene()
+            end
+        end)
+    end)
+end})
+
+local AutoOffhand = WinB:Toggle({
+    Text = "AutoOffhandPerk",
+    TextSize = 22,
+    TextColor = Color3.fromRGB(255, 187, 109),
+    Font = Enum.Font.FredokaOne,
+    Enabled = Toggles.AutoSwitch,
+    Callback = function(State)
+    Toggles.AutoSwitch = State
+    task.spawn(function()
+        SaveData('WZ_Toggles', Toggles)
+        local connection 
+        connection = Workspace.Mobs.ChildAdded:connect(function(Mob)
+            if Toggles.AutoSwitch and Mob:isA('Model') then 
+                SwitchToPerk(Mob)
+            end
+        end)
+        if not Toggles.AutoSwitch then
+            connection:Disconnect()
+        end
+    end)
+end})
+
+WinC:Button({
+    Text = "Bank",
+    TextSize = 22,
+    Font = Enum.Font.FredokaOne,
+    TextColor = Color3.fromRGB(255, 187, 109),
+    Callback = function()
+    if Workspace:FindFirstChild("MenuRings") and Workspace.MenuRings:FindFirstChild("Bank") then
+        Workspace.MenuRings.Bank.Ring.CFrame = Character:WaitForChild('LeftFoot').CFrame * CFrame.new(0, 0, -12)
+        Workspace.MenuRings.Bank.Floor.CFrame = Character:WaitForChild('LeftFoot').CFrame * CFrame.new(0, 0, -12)
+    end
+end})
+
+WinC:Button({
+    Text = "Upgrade",
+    TextSize = 22,
+    Font = Enum.Font.FredokaOne,
+    TextColor = Color3.fromRGB(255, 187, 109),
+    Callback = function()
+    require(ReplicatedStorage.Client.Gui.GuiScripts.ItemUpgrade):Toggle()
+end})
+
+WinC:Button({
+    Text = "Zero Altar",
+    TextSize = 22,
+    Font = Enum.Font.FredokaOne,
+    TextColor = Color3.fromRGB(255, 187, 109),
+    Callback = function()
+    require(ReplicatedStorage.Client.Gui.GuiScripts.Fusion):Open()
+end})
+
+WinC:Button({
+    Text = "Way Stones",
+    TextSize = 22,
+    Font = Enum.Font.FredokaOne,
+    TextColor = Color3.fromRGB(255, 187, 109),
+    Callback = function()
+    require(ReplicatedStorage.Client.Gui.GuiScripts.Waystones):Open()
+end})
+
+WinC:Button({
+    Text = "World Menu",
+    TextSize = 22,
+    Font = Enum.Font.FredokaOne,
+    TextColor = Color3.fromRGB(255, 187, 109),
+    Callback = function()
+    require(ReplicatedStorage.Client.Gui.GuiScripts.WorldTeleport):Toggle()
+end})
+
+WinC:Button({
+    Text = "Dungeon Menu",
+    TextSize = 22,
+    Font = Enum.Font.FredokaOne,
+    TextColor = Color3.fromRGB(255, 187, 109),
+    Callback = function()
+    require(ReplicatedStorage.Client.Gui.GuiScripts.MissionSelect):Toggle()
+end})
+
+local SellNonLeg = WinD:Toggle({
+    Text = "SellTier[1-4]",
+    TextSize = 22,
+    TextColor = Color3.fromRGB(255, 187, 109),
+    Font = Enum.Font.FredokaOne,
+    Enabled = Toggles.SellNonLegend,
+    Callback = function(State)
+    Toggles.SellNonLegend = State
+    task.spawn(function()
+        SaveData('WZ_Toggles', Toggles)
+    end)
+end})
+
+local SellLeg = WinD:Toggle({
+    Text = "SellLegendary",
+    TextSize = 22,
+    TextColor = Color3.fromRGB(255, 187, 109),
+    Font = Enum.Font.FredokaOne,
+    Enabled = Toggles.SellLegend,
+    Callback = function(State)
+    Toggles.SellLegend = State
+    task.spawn(function()
+        SaveData('WZ_Toggles', Toggles)
+    end)
+end})
+
+local MoLPass = WinD:Toggle({
+    Text = "MoLPassive",
+    TextSize = 22,
+    TextColor = Color3.fromRGB(255, 187, 109),
+    Font = Enum.Font.FredokaOne,
+    Enabled = Toggles.MoLPass,
+    Callback = function(State)
+    Toggles.MoLPass = State
+    local party = require(ReplicatedStorage.Shared.Party):GetPartyByUsername(Player.Name)
+    task.spawn(function()
+        while Toggles.MoLPass do
+            local character = Workspace.Characters[Player.Name]
+            if character and character.HealthProperties.Health.Value / character.HealthProperties.MaxHealth.Value * 100 < 99 then
+            for _, player in pairs(Players:GetPlayers()) do
+                if party and party.Members:FindFirstChild(player.Name) then
+                ReplicatedStorage.Shared.Combat.Skillsets.MageOfLight.HealCircle:FireServer(player)
+                end
+            end
+            end
+            task.wait(14)
+        end
+    end)
+    task.spawn(function()
+        SaveData('WZ_Toggles', Toggles)
+        while Toggles.MoLPass do
+            local character = Workspace.Characters[Player.Name]
+            if character and character.HealthProperties.BarrierHealth.Value <= 0 then
+            for _, player in pairs(Players:GetPlayers()) do
+                if party and party.Members:FindFirstChild(player.Name) then
+                ReplicatedStorage.Shared.Combat.Skillsets.MageOfLight.Barrier:FireServer(player)
+                end
+            end
+            end
+            task.wait(15)
+        end
+    end)
+end})
+
+local AiPing = WinD:Toggle({
+    Text = "AI.Cooldown",
+    TextSize = 22,
+    TextColor = Color3.fromRGB(255, 187, 109),
+    Font = Enum.Font.FredokaOne,
+    Enabled = Toggles.AiPing,
+    Callback = function(State)
+    Toggles.AiPing = State
+    task.spawn(function()
+    SaveData('WZ_Toggles', Toggles)
+    end)
+end})
+
+Workspace.ChildAdded:Connect(function(bp)
+    if bp.Name == 'BarrierPart' then
+        task.defer(bp.Destroy,bp)
+    end
+end)
+
+local RepeatRaid = WinD:Toggle({
+    Text = "RepeatRaid",
+    TextSize = 22,
+    TextColor = Color3.fromRGB(255, 187, 109),
+    Font = Enum.Font.FredokaOne,
+    Enabled = Toggles.RepeatRaid,
+    Callback = function(State)
+    Toggles.RepeatRaid = State
+    task.spawn(function()
+        SaveData('WZ_Toggles', Toggles)
+        for _,v in pairs(oID) do
+            if game.PlaceId ~= v and Toggles.RepeatRaid then
+                local MissionRewards = Player.PlayerGui.MissionRewards.MissionRewards
+                if MissionRewards.Playerlist.Visible then
+                    MissionsMod:SetLeaveChoice(Player, true)
+                    MissionsMod:NotifyReadyToLeave(Player)
+                end
+                MissionRewards.RaidClear:GetPropertyChangedSignal('Text'):Connect(function()
+                    if MissionRewards.RaidClear.Text == 'T O W E R    F A I L U R E' then
+                        MissionsMod:SetLeaveChoice(Player, true)
+                        MissionsMod:NotifyReadyToLeave(Player)
+                    end
+                end)
+                MissionRewards.RaidClear:GetPropertyChangedSignal('Text'):Connect(function()
+                    if MissionRewards.RaidClear.Text == 'D U N G E O N    F A I L U R E' then
+                        MissionsMod:SetLeaveChoice(Player, true)
+                        MissionsMod:NotifyReadyToLeave(Player)
+                    end
+                end)
+                Player.PlayerGui.TowerFinish.TowerFinish.Description.Overlay:GetPropertyChangedSignal('Text'):Connect(function()
+                    if Player.PlayerGui.TowerFinish.TowerFinish.Description.Overlay.Text == 'Collect your rewards! (10)' then
+                        MissionsMod:SetLeaveChoice(Player, true)
+                        MissionsMod:NotifyReadyToLeave(Player)
+                    end
+                end)
+                MissionRewards.Playerlist.Header:GetPropertyChangedSignal('Visible'):Connect(function()
+                    wait(1)
+                    click(MissionRewards.Playerlist.WithParty.TextLabel)
+                end)
+            end
+        end
+    end)
+end})
+
+local ReloadOnHop = WinD:Toggle({
+    Text = "ReloadOnHop",
+    TextSize = 22,
+    TextColor = Color3.fromRGB(255, 187, 109),
+    Font = Enum.Font.FredokaOne,
+    Enabled = Toggles.ReLoadOnHop,
+    Callback = function(State)
+    Toggles.ReLoadOnHop = State
+    task.spawn(function()
+        SaveData('WZ_Toggles', Toggles)
+        Players.PlayerRemoving:connect(function(engaged)
+            if engaged == Player and Toggles.ReLoadOnHop then
+                quequeTeleport(ScriptLink)
+            end
+        end)
+    end)
+end})
+
+local KlausDown = WinE:Toggle({
+    Text = "Klaus↓Down",
+    TextSize = 22,
+    Font = Enum.Font.FredokaOne,
+    TextColor = Color3.fromRGB(255, 187, 109),
+    Enabled = Toggles.KlausDown,
+    Callback = function(State)
+    Toggles.KlausDown = State
+    local parts = Workspace.MissionObjects.MissionStart:GetChildren()
+    for i = 1, 2 do
+        if Toggles.KlausDown and Workspace.MissionObjects:FindFirstChild("MissionStart") then
+            parts[3].CFrame = HRP.CFrame
+        end
+        wait()
+    end
+    HRP.CFrame = CFrame.new(44, 497, 997)
+    bvCreate()
+end})
+
+WinE:Button({
+    Text = "Unstuck-SOS",
+    TextSize = 22,
+    Font = Enum.Font.FredokaOne,
+    TextColor = Color3.fromRGB(255, 187, 109),
+    Callback = function()
+    bvDelete()
+end})
+
+WinE:Slider("WalkSpeed",16,120,Humanoid.WalkSpeed, function(Value)
+    Humanoid.WalkSpeed = Value
+end)
+
+WinF:DestroyUI()
+
+----------------------------FreezeMobs-----------------------------
+
+WinF:Button({
+    Text = "FreezeMob",
+    TextSize = 22,
+    TextColor = Color3.fromRGB(255, 187, 109),
+    Font = Enum.Font.FredokaOne,
+    Enabled = FreezeMob,
+    Callback = function(bool)
+    if bool then
+        Workspace.Mobs.ChildAdded:connect(function(mob)
+            if not string.find(mob.Name, "BOSS") then
+                local dummy = Instance.new("Part")
+                dummy.Name = "Dummy"
+                dummy.Anchored = true
+                dummy.CanCollide = false
+                dummy.Size = Vector3.new(1, 1, 1)
+                dummy.Transparency = 1
+                dummy.Parent = game:GetService("Workspace")
+                dummy.Position = mob.Collider.Position
+                local weld = Instance.new("Weld")
+                weld.Parent = mob.Collider
+                weld.Part0 = mob.Collider
+                weld.Part1 = dummy
+                local bodyForce = Instance.new("BodyForce")
+                bodyForce.Parent = dummy
+                pcall(function()
+                bodyForce:ApplyForce(Vector3.new(0, -100, 0))
+                end)
+            end
+        end)
+    end
+end})
+
+WinF:HideUI()
+
+local RealTime = WinF:Toggle({
+    Text = "RealTimePing",
+    TextSize = 22,
+    TextColor = Color3.fromRGB(255, 187, 109),
+    Font = Enum.Font.FredokaOne,
+    Enabled = RealTime,
+    Callback = function(State)
+    RealTime = State
+    task.spawn(function()
+        while RealTime do
+            WinF.Text = ("Ping: "..math.floor(game:GetService('Stats').Network.ServerStatsItem['Data Ping']:GetValue()))
+            wait(2)
+        end
+    end)
+end})
+
+local OWFarm = WinF:Toggle({
+    Text = "PubMapFarm",
+    TextSize = 22,
+    TextColor = Color3.fromRGB(255, 187, 109),
+    Font = Enum.Font.FredokaOne,
+    Enabled = OWFarm,
+    Callback = function(State)
+    OWFarm = State
+    task.spawn(function()
+        TeleportSpeed = 60
+        while OWFarm do
+            local Mob = TargetLocator()
+            Teleport(Mob)
+            task.wait(3/2)
+        end
+    end)
+end})
+
+WinF:Box({
+    Text = "Webhook URL",
+    Callback = function(Value)
+    MoreFlag.Webhook = Value
+    ClearText = true
+    task.spawn(function()
+        SaveData('WZwebhook', MoreFlag)
+    end)
+end})
+
+WinG:MinimizeWindows()
+
+ReplicatedStorage.Shared.Missions.MissionFinished.OnClientEvent:Connect(function()
+    WinB.Text = ("EndTime: "..os.date("%I:%M %p"))
+end)
+
+----------------------------ClaimDungeonReward-----------------------------
+
+for _,v in pairs(dID) do
+    if game.PlaceId == v then
+        local MissionRewards = Player.PlayerGui.MissionRewards.MissionRewards
+        MissionRewards.Countdown:GetPropertyChangedSignal('Text'):Connect(function()
+            if MissionRewards.Countdown.Text == 'Pick up your gold! (1)' then 
+                repeat wait() until MissionRewards.Chests.Visible and MissionRewards.Chests.Box1.Visible and MissionRewards.Chests.Box2.Visible
+                repeat wait() until MissionRewards.Chests.Box1.ChestImage.Select.Visible
+                repeat click(MissionRewards.Chests.Box1.ChestImage.Select) wait()
+                until MissionRewards.OpenChest.Countdown.text == '0'
+             end
+        end)
+        MissionRewards.OpenChest.Countdown:GetPropertyChangedSignal('Text'):Connect(function()
+            if MissionRewards.OpenChest.Countdown.Text == '0' then
+                repeat wait() until MissionRewards.OpenChest:FindFirstChild("Next") and MissionRewards.OpenChest:FindFirstChild("Next").Visible
+                click(MissionRewards.OpenChest.Next.TextLabel)
+            end
+        end)
+        MissionRewards.Chests.Box1.ChestImage.ChildAdded:Connect(function(vf)
+            if vf.Name == 'ViewportFrame' and not IsExtraDrop then
+                wait(5)
+                click(MissionRewards.OpenChest.Next.TextLabel)
+            else click(MissionRewards.Chests.Box2.ChestImage.VIP.TextLabel) wait(1.5)
+                repeat click(MissionRewards.Chests.Box2.ChestImage.Select) wait()
+                until MissionRewards.OpenChest.Countdown.text == '0'
+            end
+        end)
+        MissionRewards.Chests.Box2.ChestImage.ChildAdded:Connect(function(vf)
+            if vf.Name == 'ViewportFrame' and IsExtraDrop then wait(3)
+                click(MissionRewards.OpenChest.Next.TextLabel)
+            end
+        end)
+    end
+end
+  
+----------------------------MissionConnections-----------------------------
+
+if game.PlaceId == dID[2.1] then
+    Workspace.MissionObjects.ChildRemoved:Connect(function(ms)
+        if ms.Name == 'MissionStart' then wait(1)
+            Workspace.MissionObjects.Room1Trigger.CFrame = HRP.CFrame
+        end
+    end)
+    Workspace.MissionObjects.Room1Trigger.ChildRemoved:Connect(function()
+        wait(2)
+        Workspace.MissionObjects.Room2Trigger.CFrame = HRP.CFrame
+    end)
+    Workspace.MissionObjects.Room2Trigger.ChildRemoved:Connect(function()
+        wait(2)
+        Workspace.MissionObjects.Room3Trigger.CFrame = HRP.CFrame
+    end)
+    Workspace.MissionObjects.Room3Trigger.ChildRemoved:Connect(function()
+        wait(2)
+        Workspace.MissionObjects.Room4Trigger.CFrame = HRP.CFrame
+    end)
+    Workspace.MissionObjects.Room4Trigger.ChildRemoved:Connect(function()
+        wait(6)
+        HRP.CFrame = Workspace.MissionObjects.WallsTrigger.CFrame
+        wait(3)
+        HRP.CFrame = Workspace.MissionObjects.WallsFinalTrigger.CFrame
+    end)
+    Player.PlayerGui.MissionObjective.MissionObjective.Label:GetPropertyChangedSignal('Text'):Connect(function()
+        if Player.PlayerGui.MissionObjective.MissionObjective.Label.Text == 'Take the royal crystal! (0 / 1)' then
+            HRP.CFrame = CFrame.new(1192.15894, -226.738449, 110.141144)
+        end
+    end)
+end
+-- 1-4
+if game.PlaceId == dID[1.4] then
+    Workspace.ChildAdded:Connect(function(SceneTrigger)
+        if SceneTrigger.Name == 'Cage1Marker' then
+            wait(2)
+            Workspace.Cage1Marker.Collider.CFrame = HRP.CFrame
+        end
+    end)
+    Workspace.ChildAdded:Connect(function(SceneTrigger)
+        if SceneTrigger.Name == 'Cage2Marker' then
+            wait(2.2)
+            Workspace.Cage2Marker.Collider.CFrame = HRP.CFrame
+        end
+    end)
+end
+-- 3-1
+if game.PlaceId == dID[3.1] then
+    Workspace.MissionObjects.ChildRemoved:Connect(function(pb1)
+        if pb1.Name == 'ProgressionBlocker1' then
+            Workspace.MissionObjects.CaveTrigger.CFrame = HRP.CFrame
+        end
+    end)
+end
+--3 Final
+if game.PlaceId == dID[3] then
+    Workspace.ChildAdded:Connect(function(iw)
+        if iw.Name == 'IceWall' then
+            wait(5)
+            AutoFarm.State = false
+            HRP.CFrame = Workspace.IceWall:FindFirstChild('Ring').CFrame
+        end
+    end)
+    Workspace.ChildRemoved:Connect(function(iw)
+        if iw.Name == 'IceWall' then
+            bvCreate()
+            AutoFarm.State = true
+        end
+    end)
+end
+
+-- 4-1
+local function CleanTowerLegs()
+    pcall(function()
+        for _,v in pairs(Workspace.MissionObjects.TowerLegs:GetDescendants()) do
+            if v.Name == ('hitbox') and not v.CanCollide then
+                v.Parent:Destroy()
+            end
+        end
+    end)
+end
+if game.PlaceId == dID[4.1] then
+    Workspace.MissionObjects.TowerLegs.DescendantRemoving:Connect(CleanTowerLegs)
+end
+-- 6-1
+if game.PlaceId == dID[6.1] then
+    Workspace.MissionObjects.ChildRemoved:Connect(function(ms)
+        if ms.Name == 'MissionStart' then wait(1)
+            Workspace.MissionObjects.Area1Trigger.CFrame = HRP.CFrame
+        end
+    end)
+    Workspace.MissionObjects.Area2Trigger.ChildAdded:Connect(function(ti)
+        if ti:IsA('TouchTransmitter') then wait(1)
+            Workspace.MissionObjects.Area2Trigger.CFrame = HRP.CFrame
+        end
+    end)
+end
+-- 7-1
+if game.PlaceId == dID[7.1] then
+    Workspace.MissionObjects.ChildRemoved:Connect(function(ms)
+        if ms.Name == 'MissionStart' then wait(1)
+            Workspace.MissionObjects.FakeBoss.CFrame = HRP.CFrame
+        end
+    end)
+end
+-- Towers
+if game.PlaceId == tID[1] then
+    Player.PlayerGui.MissionObjective.MissionObjective.Label:GetPropertyChangedSignal('Text'):Connect(function()
+        if Player.PlayerGui.MissionObjective.MissionObjective.Label.Text == 'Get behind the active shield! (2)' then
+            AutoFarm.State = false
+            HRP.CFrame = Workspace.MissionObjects.IgnisShield.Ring.CFrame
+            wait(3)
+            bvCreate()
+            AutoFarm.State = true
+        end
+    end)
+end
+for _,v in pairs(tID) do
+    if game.PlaceId == v then
+        task.spawn(function()
+            while IsAlive() do
+                local Starter = Workspace.MissionObjects:WaitForChild('WaveStarter', math.huge)
+                if #Starter:GetChildren() > 0 then
+                    Starter.CFrame = HRP.CFrame
+                end
+                wait()
+            end
+        end)
+        Workspace.MissionObjects.ChildAdded:Connect(function(mbem)
+            if mbem.Name == 'MinibossExitModel' then wait(2)
+                Workspace.MissionObjects.MinibossExitModel:MoveTo(HRP.Position)
+            end
+        end)
+        Workspace.MissionObjects.ChildAdded:Connect(function(mbe)
+            if mbe.Name == 'MinibossExit' then wait(3)
+                AutoFarm.State = false
+                Workspace.MissionObjects.MinibossExit.CFrame = HRP.CFrame
+                wait()
+                bvCreate()
+                AutoFarm.State = true
+            end
+        end)
+    end
+end
+
+-- Holidays 
+
+local effects = game:GetService("ReplicatedStorage").Shared.Effects
+local effectsMod = effects.EffectScripts:GetChildren()
+
+for _, v in ipairs(effectsMod) do
+    if hookfunction and v:IsA("ModuleScript") and (
+        string.find(v.Name, "Klaus")
+    ) then
+        local Module = require(v)
+        hookfunction(Module, function()
+            return wait(600)
+        end)
+    end
+end
+
+----------------------------AutoNextScene-----------------------------
+
+for i,v in pairs(dID) do
+    if type(i) ~= "string" and game.PlaceId == v then
+        if Workspace:FindFirstChild('MissionObjects') then
+            local missionObjects = Workspace.MissionObjects
+            missionObjects.DescendantAdded:Connect(function(ti)
+                if ti:IsA'TouchTransmitter' and not string.match(ti.Parent.Parent.Name, 'Damage') and not string.match(ti.Parent.Name, 'Killpart') and not string.match(ti.Parent.Name, '0') and
+                not string.match(ti.Parent.Parent.Name, 'Darts') and not string.match(ti.Parent.Parent.Name, 'Spikes') and ti.Parent ~= 'MinibossExit' and ti.Parent.Parent ~= 'MinibossExitModel' then wait(2)
+                    pcall(function()
+                    ti.Parent.CFrame = HRP.CFrame
+                    end)
+                end
+            end)
+            missionObjects.DescendantAdded:Connect(function(trigger)
+                if trigger:IsA'TouchTransmitter' and string.match(trigger.Parent.Name, 'Trigger') then wait(3/2)
+                    pcall(function()
+                    trigger.Parent.CFrame = HRP.CFrame
+                    end)
+                end
+            end)
+        end
+    end
+end
+
+----------------------------ChestHandler-----------------------------
+
+for _,tower in pairs(tID) do
+    if game.PlaceId == tower then
+        Workspace.ChildAdded:Connect(function(rcg)
+            if rcg.Name == 'RaidChestGold' then
+                Workspace.RaidChestGold.ChestBase.CFrame = HRP.CFrame
+                wait(3.8) rcg:Destroy()
+            end
+        end)
+        Workspace.ChildAdded:Connect(function(rcs)
+            if rcs.Name == 'RaidChestSilver' then
+                Workspace.RaidChestSilver.ChestBase.CFrame = HRP.CFrame
+                wait(3.8) rcs:Destroy()
+            end
+        end)
+        Workspace.ChildAdded:Connect(function(ac)
+            if ac.Name == 'AtlanticChest' then
+                for _, v in pairs(Workspace:GetChildren()) do
+                    if v.ClassName == 'Model' and v.Name == 'AtlanticChest' then
+                        v.ChestBase.CFrame = HRP.CFrame
+                    end
+                end
+            end
+        end)
+        Workspace.ChildAdded:Connect(function(vc)
+            if vc.Name == 'VolcanicChestTower' then
+                for _, v in pairs(Workspace:GetChildren()) do
+                    if v.ClassName == 'Model' and v.Name == 'VolcanicChestTower' then
+                        v.ChestBase.CFrame = HRP.CFrame
+                    end
+                end
+            end
+        end)
+        Workspace.ChildRemoved:Connect(function(rcg)
+            if rcg.Name == 'RaidChestGold' and Workspace:FindFirstChild'RaidChestGold' then
+                Workspace.RaidChestGold.ChestBase.CFrame = HRP.CFrame
+            end
+        end)
+        Workspace.ChildRemoved:Connect(function(rcs)
+            if rcs.Name == 'RaidChestSilver' and Workspace:FindFirstChild'RaidChestSilver' then
+                Workspace.RaidChestSilver.ChestBase.CFrame = HRP.CFrame
+            end
+        end)
+        Workspace.ChildRemoved:Connect(function(ac)
+            if ac.Name == 'AtlanticChest' then
+                for _, v in pairs(Workspace:GetChildren()) do
+                    if v.ClassName == 'Model' and v.Name == 'AtlanticChest' and Workspace:FindFirstChild'AtlanticChest' then
+                        v.ChestBase.CFrame = HRP.CFrame
+                    end
+                end
+            end
+        end)
+        Workspace.ChildRemoved:Connect(function(vc)
+            if vc.Name == 'VolcanicChestTower' then
+                for _, v in pairs(Workspace:GetChildren()) do
+                    if v.ClassName == 'Model' and v.Name == 'VolcanicChestTower' and Workspace:FindFirstChild'VolcanicChestTower' then
+                        v.ChestBase.CFrame = HRP.CFrame
+                    end
+                end
+            end
+        end)
+    end
+end
+
+----------------------------PurchaseHandler-----------------------------
+
+for _,v in pairs(tID) do
+    if game.PlaceId == v then
+        CoreGui.PurchasePrompt.ProductPurchaseContainer.Animator.ChildAdded:Connect(function()
+            pcall(function()
+                CoreGui.PurchasePrompt.ProductPurchaseContainer.Animator.Prompt.Visible = false
+            end)
+        end)
+        CoreGui.PurchasePrompt.ChildAdded:Connect(function(ruc)
+            if ruc.Name == 'RobuxUpsellContainer' then
+                wait(1/3)
+                ruc:Destroy()
+            end
+        end)
+    end
+end
+
+----------------------------OpenWorldProtection-----------------------------
+
+for _,v in pairs(oID) do
+    if game.PlaceId == v then
+        KillAura.State = false
+        AutoFarm.State = false
+    end
+end
+
+----------------------------HRPupdater-----------------------------
+
+local function updateVariables(newCharacter)
+    character = newCharacter
+    Humanoid = newCharacter:WaitForChild('Humanoid')
+    HRP = newCharacter:WaitForChild('HumanoidRootPart')
+    bvCreate()
+end
+Player.CharacterAdded:Connect(updateVariables)
+
+----------------------------AntiAFK-----------------------------
+
+if getconnections then
+    for _, v in next, getconnections(Player.Idled) do
+        v:Disable()
+    end
+end
+if not getconnections then
+    Player.Idled:connect(
+        function()
+            gs.VirtualUser:ClickButton2(Vector2.new())
+        end
+    )
+end
+
+----------------------------ZoomOut-----------------------------
+
+Player.CameraMaxZoomDistance = 60
+local OldCMZD = Player.CameraMinZoomDistance
+Player.CameraMinZoomDistance = 60
+Player.CameraMinZoomDistance = OldCMZD
+
+----------------------------KickedConnection-----------------------------
+
+game.NetworkClient.ChildRemoved:Connect(function(Status)
+    Toggles.KillAura = false
+    gs.GuiService:ClearError()
+    WinE.Text = ("Disconnected")
+end)
+
+----------------------------Kicked & Reconnect Rejoin-----------------------------
+
+spawn(function()
+    local promptGui = CoreGui:WaitForChild("RobloxPromptGui")
+    local promptOverlay = promptGui:WaitForChild("promptOverlay")
+    local errorPrompt = promptOverlay:WaitForChild("ErrorPrompt")
+    local messageArea = errorPrompt:WaitForChild("MessageArea")
+    local errorFrame = messageArea:WaitForChild("ErrorFrame")
+    local errorMessage = errorFrame:WaitForChild("ErrorMessage")
+    repeat wait() until string.find(errorMessage.Text, "exploit") or string.find(errorMessage.Text, "reconnect")
+    print("Got Kicked, Last DungeonID is "..tostring(Kick.DungeonID).." and last Difficulty is "..tostring(Kick.DifficultyID))
+    if Kick.DifficultyID <= 1 then
+        ReplicatedStorage.Shared.Teleport.StartRaid:FireServer(Kick.DungeonID)
+    else
+        ReplicatedStorage.Shared.Teleport.StartRaid:FireServer(Kick.DungeonID, Kick.DifficultyID)
+    end
+end)
+
+
+----------------------------AltAccRejoin-----------------------------
+
+local GameData = {
+    DungeonID = wID[game.PlaceId],
+    DifficultyID = MissionsMod.GetDifficulty(),
+    Phase = 0,
+    ProfileGUID = ReplicatedStorage.Profiles[Player.Name].GUID.Value
+}
+if getgenv().RJOnCrash and not wID[game.PlaceId] or GameData.Phase == 1 then
+    LoadData('WZ_CrashRJ', GameData)
+    wait(1)
+    if GameData.Phase == 0 then
+        GameData.Phase = 1
+        SaveData('WZ_CrashRJ', GameData)
+        quequeTeleport(ScriptLink)
+        while wait(10) do
+            ReplicatedStorage.Shared.Teleport.JoinGame:FireServer(GameData.ProfileGUID)
+        end
+    end
+    if GameData.Phase == 1 then
+        GameData.Phase = 0
+        SaveData('WZ_CrashRJ', GameData)
+        quequeTeleport(ScriptLink)
+        if Kick.DifficultyID <= 1 then
+            ReplicatedStorage.Shared.Teleport.StartRaid:FireServer(GameData.DungeonID)
+        else
+            ReplicatedStorage.Shared.Teleport.StartRaid:FireServer(GameData.DungeonID, GameData.DifficultyID)
+        end
+    end
+end
+SaveData('WZ_CrashRJ', GameData)
+----------------------------Spoof-----------------------------
+
+local spoof = function(instance, property)
+    local spoofer = {
+        enabled = true,
+        fake = instance[property],
+        fake_type = typeof(fake),
+    }
+    local _index
+    local _newindex
+    function spoofer:SetFake(new_value, any_type)
+        if any_type then
+            spoofer.fake = new_value
+        elseif typeof(new_value) == spoofer.fake_type then
+            spoofer.fake = new_value
+        else
+            spoofer.fake = nil
+        end
+    end
+    function spoofer:Destroy()
+        instance[property] = spoofer.fake
+        spoofer.enabled = false
+    end
+    if hookmetamethod then
+        _index = hookmetamethod(instance, '__index', function(self, index)
+            if self == instance and index == property and not checkcaller() and spoofer.enabled then
+                return spoofer.fake
+            end
+
+            return _index(self, index)
+        end)
+        _newindex = hookmetamethod(instance, '__newindex', function(self, index, value)
+            if self == instance and index == property and not checkcaller() and spoofer.enabled then
+                if typeof(value) == spoofer.fake_type then
+                    spoofer.fake = value
+                    return
+                else
+                    spoofer.fake = nil
+                    return
+                end
+            end
+            return _newindex(self, index, value)
+        end)
+    else
+        return
+    end
+    return spoofer
+end
+
+spoof(Humanoid, 'WalkSpeed')
+spoof(Humanoid, 'JumpPower')
+spoof(Player, 'CameraMaxZoomDistance')
+
+----------------------------ResetToggle-----------------------------
+
+if PlayerClass ~= 'MageOfLight' then
+    MoLPass.State = false
+end
+
+-------------------------GetMaxPerks-----------------------------
+
+local MaxPerkRange = {}
+local SelectedPerk = ''
+local FirstPerkTable = true
+if MoreFlag.PerkNames ~= nil and type(MoreFlag.PerkNames) == 'table' then
+    for i,v in pairs(MoreFlag.PerkNames) do
+        FirstPerkTable = false
+    end
+end
+if FirstPerkTable then
+    MoreFlag.PerkNames = {}
+    for i, v in pairs(GearPerksMod) do
+        if type(v) == 'table' then
+            for i2,v2 in pairs(v) do
+                if type(v2) == 'table' then
+                    for i3,v3 in pairs(v2) do
+                        if i3 == 2 then
+                            table.insert(MoreFlag.PerkNames, i)
+                            MaxPerkRange[i] = v3
+                        end
+                    end
+                end
+            end
+        end
+    end
+else
+    LoadData('WZwebhook', MoreFlag)
+end
+
+-----------------------Dungeon End checks---------------------------
+
+local ItemsDropped = {}
+local BetterPerkName = {
+    ['ResistFrost'] = 'Resist Frost',
+    ['ResistBurn'] = 'Resist Burn',
+    ['Glass'] = 'Glass',
+    ['RoughSkin'] = 'Rough Skin',
+    ['ResistKnockdown'] = 'Resist Knockdown',
+    ['BonusWalkspeed'] = 'Bonus Walkspeed',
+    ['PetFoodDrop'] = 'Bonus Pet Food Chance',
+    ['BonusAttack'] = 'Attack UP',
+    ['BonusHP'] = 'HP UP',
+    ['ResistPoison'] = 'Resist Poison',
+    ['LifeDrain'] = 'Life Drain',
+    ['CritStack'] = 'Crit Stack',
+    ['BurnChance'] = 'Burn Chance',
+    ['OpeningStrike'] = 'Opening Strike',
+    ['MobBoss'] = 'Mob Boss',
+    ['TestTier5'] = 'Boss of the Boss',
+    ['GoldDrop'] = 'Bonus Gold',
+    ['BonusRegen'] = 'Bonus Health Regen',
+    ['DamageReduction'] = 'Damage Reduction',
+    ['Aggro'] = 'Shifted Aggro',
+    ['UltCharge'] = 'Ult Charge',
+    ['Fortress'] = 'Fortress',
+    ['MasterThief'] = 'Master Thief',
+    ['EliteBoss'] = 'Elite Boss',
+    ['DodgeChance'] = 'Untouchable'
+}
+local StartedGold = ReplicatedStorage.Profiles[Player.Name].Currency.Gold.Value
+for i,v in pairs(ReplicatedStorage.Profiles[Player.Name].Inventory.Items:GetChildren()) do
+    if v:FindFirstChild('UpgradeLimit') and v:FindFirstChild('Level') then
+        local ItemExists = Instance.new('StringValue')
+        ItemExists.Parent = v
+        ItemExists.Name = 'Item Already Exists'
+        ItemExists.Value = 'Item Already Exists'
+    end
+end
+local connection
+connection = ReplicatedStorage.Profiles[Player.Name].Inventory.Items.DescendantAdded:Connect(function()
+    for i,v in pairs(ReplicatedStorage.Profiles[Player.Name].Inventory.Items:GetChildren()) do
+        if v:FindFirstChild('UpgradeLimit') and v:FindFirstChild('Level') and not v:FindFirstChild('Item Already Exists') then
+            wait(.25)
+            local ItemSold = false
+			local ItemName = ''
+            if Toggles.SellNonLegend then
+                if not v:FindFirstChild('Perk3') then
+                    v.Name = 'This Item is gone'
+                    ItemName = v.Name
+                    ReplicatedStorage.Shared.Drops.SellItems:InvokeServer({ReplicatedStorage.Profiles[Player.Name].Inventory.Items:FindFirstChild(ItemName)})
+                    ItemSold = true
+                end
+            end
+            if Toggles.SellLegend and ItemsMod[v.Name].Rarity ~= 7 and not string.find(ItemsMod[v.Name].DisplayKey, "Zero") then
+                local Perk1Check = false
+                local Perk2Check = false
+                local Perk3Check = false
+                for _,Perk in pairs(MoreFlag.PerkNames) do
+                    if v:FindFirstChild('Perk3') and v:FindFirstChild('Perk3').Value == Perk then
+                        if Toggles.MaxPerk and v:FindFirstChild('Perk3'):FindFirstChild('PerkValue').Value == MaxPerkRange[Perk] then
+                            Perk3Check = true
+                        else
+                            Perk3Check = true
+                        end
+                    elseif v:FindFirstChild('Perk2') and v:FindFirstChild('Perk2').Value == Perk then
+                        if Toggles.MaxPerk and v:FindFirstChild('Perk2'):FindFirstChild('PerkValue').Value == MaxPerkRange[Perk] then
+                            Perk2Check = true
+                        else
+                            Perk2Check = true
+                        end
+                    elseif v:FindFirstChild('Perk1') and v:FindFirstChild('Perk1').Value == Perk then
+                        if Toggles.MaxPerk and v:FindFirstChild('Perk1'):FindFirstChild('PerkValue').Value == MaxPerkRange[Perk] then
+                            Perk1Check = true
+                        else
+                            Perk1Check = true
+                        end
+                    end
+                    if not Perk1Check and not Perk2Check and not Perk3Check then
+                        v.Name = 'This Item is gone'
+                        ItemName = v.Name
+                        ReplicatedStorage.Shared.Drops.SellItems:InvokeServer({ReplicatedStorage.Profiles[Player.Name].Inventory.Items:FindFirstChild(ItemName)})
+                        ItemSold = true
+                    end
+                end
+            end
+            if not ItemSold then
+                local ItemExists = Instance.new("StringValue")
+                ItemExists.Name = "Item Already Exists"
+                ItemExists.Value = "Item Already Exists"
+                ItemExists.Parent = v
+                local Level = v:FindFirstChild("Level").Value
+                local Rarity, Perk1, Perk2, Perk3
+                if v:FindFirstChild("Perk3") then
+                    Rarity = "Legendary"
+                    Perk1 = BetterPerkName[tostring(v.Perk1.Value)] .. " " .. tostring(math.floor(v:FindFirstChild("Perk1"):FindFirstChild("PerkValue").Value * 100)) .. "%"
+                    Perk2 = BetterPerkName[tostring(v.Perk2.Value)] .. " " .. tostring(math.floor(v:FindFirstChild("Perk2"):FindFirstChild("PerkValue").Value * 100)) .. "%"
+                    Perk3 = BetterPerkName[tostring(v.Perk3.Value)] .. " " .. tostring(math.floor(v:FindFirstChild("Perk3"):FindFirstChild("PerkValue").Value * 100)) .. "%"
+                elseif v:FindFirstChild("Perk2") then
+                    Rarity = "Epic"
+                    Perk1 = BetterPerkName[tostring(v.Perk1.Value)] .. " " .. tostring(math.floor(v:FindFirstChild("Perk1"):FindFirstChild("PerkValue").Value * 100)) .. "%"
+                    Perk2 = BetterPerkName[tostring(v.Perk2.Value)] .. " " .. tostring(math.floor(v:FindFirstChild("Perk2"):FindFirstChild("PerkValue").Value * 100)) .. "%"
+                elseif v:FindFirstChild("Perk1") then
+                    Rarity = "Uncommon"
+                    Perk1 = BetterPerkName[tostring(v.Perk1.Value)] .. " " .. tostring(math.floor(v:FindFirstChild("Perk1"):FindFirstChild("PerkValue").Value * 100)) .. "%"
+                else
+                    Rarity = "Common"
+                end
+                ItemsDropped[v.Name] = {["Level"] = Level, ["Rarity"] = Rarity, ["Perk 1"] = Perk1, ["Perk 2"] = Perk2, ["Perk 3"] = Perk3}
+            end
+        end
+    end
+end)
+Player.CharacterRemoving:Connect(function()
+    connection:Disconnect()
+end)
+
+
+local PlayerGui = Player:WaitForChild("PlayerGui")
+local MissionRewards = PlayerGui:WaitForChild("MissionRewards"):WaitForChild("MissionRewards")
+local TowerFinish = PlayerGui:WaitForChild("TowerFinish"):WaitForChild("TowerFinish")
+local RunFinished = MissionRewards:WaitForChild("Time")
+local TowerFinished = TowerFinish:WaitForChild("Description"):WaitForChild("Overlay")
+
+repeat wait() until RunFinished.Visible or TowerFinished.text == "Collect your rewards! (20)"
+wait(1)
+
+local GoldEarned = ReplicatedStorage.Profiles[Player.Name].Currency.Gold.Value - StartedGold
+local Description = ""
+local RunTime = ""
+if not RunFinished.Visible then
+    Description = "Tower Finished"
+    RunTime = TowerFinish:WaitForChild("Time").Text
+else
+    Description = MissionRewards:WaitForChild("RaidClear").Text
+    RunTime = MissionRewards:WaitForChild("Time").Text
+end
+
+
+
+
+local WorldName = ''
+local WorldDescription = ''
+for i,v in pairs(WorldDataMod) do
+    if v.LiveID == game.PlaceId then
+        WorldName = v.Name
+        WorldDescription = v.NameTag
+    end
+end
+
+local ItemsTable = {
+    {
+        ['title'] = 'World // Zero',
+        ['description'] = Description,
+        ['color'] = tonumber(0x2B6BE4),
+        ['footer'] = {
+            ['text'] = tostring(os.date())
+        },
+        ['fields'] = {
+            {
+                ['name'] = WorldName,
+                ['value'] = WorldDescription,
+                ['inline'] = false
+            },
+            {
+                ['name'] = 'Finished in',
+                ['value'] = RunTime,
+                ['inline'] = false
+            },
+            {
+                ['name'] = 'Gold Earned',
+                ['value'] = tostring(GoldEarned),
+                ['inline'] = false
+            },
+            {
+                ['name'] = 'Level: '..tostring(string.match(Player.PlayerGui.Hotbar.Hotbar.Vitals.Level.TextLabel.Text, '%d+')),
+                ['value'] = Player.PlayerGui.Hotbar.Hotbar.Vitals.XP.TextLabel.Text,
+                ['inline'] = false
+            }
+        }
+    }
+}
+
+local AddEmbeds = function(Title, Description, ...)
+    local Table = {
+        ['title'] = Title,
+        ['description'] = Description,
+        ['color'] = tonumber(0x2B6BE4),
+        ['fields'] = ...
+    }
+    return Table
+end
+local AddFields = function(Name, Description, Inline)
+    local Table = {
+        ['name'] = Name,
+        ['value'] = Description,
+        ['inline'] = Inline
+    }
+    return Table
+end
+
+for i,v in pairs(ItemsDropped) do
+    if type(v) == 'table' then
+        local Table = {}
+        table.insert(Table, AddFields('Level', v.Level, true))
+        table.insert(Table, AddFields('Rarity', v.Rarity, true))
+        if v['Perk 1'] then
+            table.insert(Table, AddFields('Perk 1', v['Perk 1'], false))
+        end
+        if v['Perk 2'] then
+            table.insert(Table, AddFields('Perk 2', v['Perk 2'], false))
+        end
+        if v['Perk 3'] then
+            table.insert(Table, AddFields('Perk 3', v['Perk 3'], false))
+        end
+        table.insert(ItemsTable, AddEmbeds(ItemsMod[i].DisplayKey, i, Table))
+    end
+end
+
+getgenv().PlayerData = HttpService:JSONEncode({
+    ['content'] = '',
+    ['embeds'] = {
+        unpack(ItemsTable)
+    }
+})
+
+----------------------------Webhook Stuff--------------------------
+
+local function SendWebhook(Link, Body)
+    if Link:match("https://discord.com/api/webhooks/%d.*/%w*") then
+        local url = Link
+        local data = PlayerData
+        local headers = {
+            ["content-type"] = "application/json"
+        }
+        request = http_request or request or HttpPost or syn.request
+        request({Url = url, Body = data, Method = "POST", Headers = headers})
+    else
+        warn("Something went wrong")
+    end
+end
+
+SendWebhook(MoreFlag.Webhook, PlayerData)
